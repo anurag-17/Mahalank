@@ -77,7 +77,7 @@ render() {
       <View style={styles.container1}>
         <TouchableOpacity style={[styles.buttonContainer, styles.fbButoon]} onPress={this._fbAuth.bind(this)}>
         <Image style={styles.icon} source={{uri: 'https://png.icons8.com/facebook/androidL/40/FFFFFF'}}/>
-          <Text style={styles.fbText}>SING IN WITH FACEBOOK</Text>
+          <Text style={styles.fbText}>SIGN IN WITH FACEBOOK</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={() => this.props.navigation.navigate('LogIn')}>

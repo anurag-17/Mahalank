@@ -6,7 +6,7 @@ export default class Help extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}> Screen {global.currentScreenIndex + 1} </Text>
+        <Text style={{ fontSize: 23 }}> Help </Text>
       </View>
     );
   }

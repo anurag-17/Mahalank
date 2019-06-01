@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
 import { View, StyleSheet, Alert, Button, Dimensions, Image, TouchableOpacity, Platform, Text, ImageBackground } from 'react-native';
-import { createDrawerNavigator, createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator,createSwitchNavigator, createAppContainer } from 'react-navigation';
 import StoreProfile from './TabModule/StoreProfile';
 import AddToCart from './TabModule/AddToCart';
 import YourOrder from './TabModule/YourOrder';
 import CheckoutScreen from './TabModule/CheckoutScreen';
 import Help from './TabModule/Help';
+import Settings from './TabModule/Settings';
 import AboutUs from './TabModule/AboutUs';
 import SearchTab from './TabModule/SearchTab';
-import Settings from './TabModule/Settings';
 
 import ViewDetailItem from './TabModule/ViewDetailItem';
 import CustomSidebarMenu from './CustomSidebarMenu';
@@ -45,7 +45,7 @@ class NavigationDrawerStructure extends Component {
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           <Image style={{ width: 25, height: 25, marginLeft: 10 }} source={{ uri: 'https://www.controlf5.in/website-template/Consulting/images/sdf.png' }} />
         </TouchableOpacity>
-
+       
 
       </View>
 
@@ -55,38 +55,38 @@ class NavigationDrawerStructure extends Component {
 
 }
 const AuthStack = createStackNavigator({
-  LoginHome: {
-    screen: LoginScreen,
-  },
-  SplashView: {
-    screen: SplashScreen,
-  },
-  SelectLanguage: {
-    screen: LanguageScreen,
-  },
-  SelectCity: {
-    screen: SelectCityScreen,
-  },
-  StoreDetailTab: {
-    screen: StoreDetailTab,
-  },
-  SelectArea: {
-    screen: SelectCityAreaScreen,
-  },
-  // MainMenuTab: {
-  //   screen: MainMenuScreen,
-  // },
+      LoginHome: {
+        screen: LoginScreen,
+      },
+      SplashView: {
+              screen: SplashScreen,
+            },
+      SelectLanguage: {
+        screen: LanguageScreen,
+      },
+      SelectCity: {
+        screen: SelectCityScreen,
+      },
+      StoreDetailTab: {
+        screen: StoreDetailTab,
+      },
+      SelectArea: {
+        screen: SelectCityAreaScreen,
+      },
+      // MainMenuTab: {
+      //   screen: MainMenuScreen,
+      // },
 
-  LogIn: {
-    screen: LogIn,
-  },
-  SignUp: {
-    screen: SignUp,
-  },
+      LogIn: {
+             screen: LogIn,
+      },
+      SignUp: {
+         screen: SignUp,
+      },
 
-  ForgotPassword: {
-    screen: ForgotPassword,
-  },
+      ForgotPassword: {
+         screen: ForgotPassword,
+      },
 
 
 });
@@ -166,8 +166,7 @@ const Screen5_StackNavigator = createStackNavigator({
       title: 'About us',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#000',
-        opacity: '0.5'
+        backgroundColor: '#000000',
       },
       headerTintColor: '#000000',
     }),
@@ -176,31 +175,31 @@ const Screen5_StackNavigator = createStackNavigator({
 
 const drawerStack = createDrawerNavigator(
   {
-    NavScreen1: {
+    Home: {
       screen: FirstActivity_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Home',
       },
     },
-    NavScreen2: {
+    orders: {
       screen: Screen2_StackNavigator,
       navigationOptions: {
         drawerLabel: 'View cart',
       },
     },
-    NavScreen3: {
+    Settings: {
       screen: Screen3_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Settings',
       },
     },
-    NavScreen4: {
+    help: {
       screen: Screen4_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Help',
       },
     },
-    NavScreen5: {
+    About: {
       screen: Screen5_StackNavigator,
       navigationOptions: {
         drawerLabel: 'About us',
@@ -215,7 +214,7 @@ const drawerStack = createDrawerNavigator(
 );
 
 const PrimaryNav = createStackNavigator({
-
+ 
   drawerStack: { screen: drawerStack },
   ViewDetailItem: { screen: ViewDetailItem },
   ChangePassword: { screen: ChangePassword },
@@ -229,19 +228,21 @@ const PrimaryNav = createStackNavigator({
     headerMode: 'none',
     initialRouteName: 'drawerStack',
     contentComponent: CustomSidebarMenu,
+  
+    
 
   },
 
 )
-const name = createSwitchNavigator(
+ const name =createSwitchNavigator(
   {
-    AuthLoading: SplashScreen,
-    App: PrimaryNav,
-    Auth: AuthStack,
+      AuthLoading: SplashScreen,
+      App: PrimaryNav,
+      Auth: AuthStack,
   },
   {
-    initialRouteName: 'AuthLoading',
-
+      initialRouteName: 'AuthLoading',
+      
   }
 )
 export default createAppContainer(name)

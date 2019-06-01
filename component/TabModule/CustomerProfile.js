@@ -19,37 +19,23 @@ class CustomerProfile extends Component {
 
     this.state = {
 
-      user_nicename1: '',
+      user_nicename: '',
       user_email: '',
-      ID1: '',
-      mob_no: '',
-      password: '',
-      username: '',
-      user_login: '',
-
-
-      first_name: '',
-      email: '',
-      phone: '',
-      address_1: '',
-      postcode: '',
-      city: '',
-
 
     }
 
     AsyncStorage.getItem('user_nicename').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "user name")
+
       this.setState({
 
-        user_nicename1: asyncStorageRes
+        user_nicename: asyncStorageRes
 
       });
 
     });
 
     AsyncStorage.getItem('user_email').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "Email")
+
       this.setState({
 
         user_email: asyncStorageRes
@@ -58,115 +44,71 @@ class CustomerProfile extends Component {
 
     });
 
-    AsyncStorage.getItem('ID').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "ID")
-      this.setState({
-
-        ID1: asyncStorageRes
-
-      });
-
-    });
-
-  }
-
-
-
-  componentDidMount() {
-
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID1 + '?per_page=100&page=1&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson[0].billing, "Response")
-
-        this.setState({
-
-          first_name: responseJson[0].billing.first_name,
-          email: responseJson[0].billing.email,
-          phone: responseJson[0].billing.phone,
-          address_1: responseJson[0].billing.address_1,
-          postcode: responseJson[0].billing.postcode,
-          city: responseJson[0].billing.city,
-
-        });
-
-
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
   }
 
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <Image style={styles.avatar}
+      <View style={styles5.container}>
+        <View style={styles5.header}>
+          <View style={styles5.headerContent}>
+            <Image style={styles5.avatar}
               source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }} />
 
-            <Text style={styles.name}>{this.state.user_nicename} </Text>
+            <Text style={styles5.name}>{this.state.user_nicename} </Text>
           </View>
-          <Text style={styles.name1}>Personal Information </Text>
+          <Text style={styles5.name1}>Personal Information </Text>
         </View>
 
-        <View style={styles.body}>
-          <View style={styles.inputContainer}>
+        <View style={styles5.body}>
+          <View style={styles5.inputContainer}>
 
-            <TextInput style={styles.inputs}
-              placeholder={this.state.first_name}
-              secureTextEntry={true}
-              editable={false}
-              underlineColorAndroid='#778899'
-              onChangeText={(password) => this.setState({ password })} />
-
-          </View>
-
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.inputs}
-              placeholder={this.state.email}
-              editable={false}
-              secureTextEntry={true}
+            <TextInput style={styles5.inputs}
+              placeholder={this.state.user_nicename}
+            
               underlineColorAndroid='#778899'
               onChangeText={(password) => this.setState({ password })} />
 
           </View>
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.inputs}
-              placeholder={this.state.phone}
-              editable={false}
+
+          <View style={styles5.inputContainer}>
+            <TextInput style={styles5.inputs}
+              placeholder={this.state.user_email}
+            
+              underlineColorAndroid='#778899'
+              onChangeText={(password) => this.setState({ password })} />
+
+          </View>
+          <View style={styles5.inputContainer}>
+            <TextInput style={styles5.inputs}
+              placeholder="Mobile No"
+             
+              underlineColorAndroid='#778899'
+              onChangeText={(password) => this.setState({ password })} />
+          </View>
+          <View style={styles5.inputContainer}>
+            <TextInput style={styles5.inputs}
+              placeholder="Address"
+            
+              underlineColorAndroid='#778899'
+              onChangeText={(password) => this.setState({ password })} />
+          </View>
+          <View style={styles5.inputContainer}>
+            <TextInput style={styles5.inputs}
+              placeholder="Pin Code"
+             
+              underlineColorAndroid='#778899'
+              onChangeText={(password) => this.setState({ password })} />
+          </View>
+          <View style={styles5.inputContainer}>
+            <TextInput style={styles5.inputs}
+              placeholder="City"
               secureTextEntry={true}
               underlineColorAndroid='#778899'
               onChangeText={(password) => this.setState({ password })} />
           </View>
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.inputs}
-              placeholder={this.state.address_1}
-              editable={false}
-              secureTextEntry={true}
-              underlineColorAndroid='#778899'
-              onChangeText={(password) => this.setState({ password })} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.inputs}
-              placeholder={this.state.postcode}
-              editable={false}
-              secureTextEntry={true}
-              underlineColorAndroid='#778899'
-              onChangeText={(password) => this.setState({ password })} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.inputs}
-              placeholder={this.state.city}
-              editable={false}
-              secureTextEntry={true}
-              underlineColorAndroid='#778899'
-              onChangeText={(password) => this.setState({ password })} />
-          </View>
-          <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('ChangePassword')}>
-            <Text style={styles.loginText}>Change Password</Text>
+          <TouchableOpacity style={[styles5.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('ChangePassword')}>
+            <Text style={styles5.loginText}>Change Password</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -174,22 +116,22 @@ class CustomerProfile extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles5 = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#DCDCDC',
-    padding: 30
+    padding:30 
 
   },
   header: {
     backgroundColor: "#DCDCDC",
-    marginTop: 20,
+    marginTop:20,
   },
   headerContent: {
     alignItems: 'center',
-    marginTop: 60,
+    marginTop:60,
   },
   avatar: {
     width: 100,

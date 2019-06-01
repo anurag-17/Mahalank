@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Text, StyleSheet, View, ListView, TextInput, ActivityIndicator, Alert,TouchableOpacity ,TouchableHighlight} from 'react-native';
+import { Text, StyleSheet, View, ListView, TextInput,AsyncStorage, ActivityIndicator, Alert,TouchableOpacity ,TouchableHighlight} from 'react-native';
 
 export default class SelectCityAreaScreen extends Component {
   static navigationOptions = {
@@ -21,6 +21,7 @@ export default class SelectCityAreaScreen extends Component {
     this.arrayholder = [] ;
 
     selected_city = this.props.navigation.state.params.Selected_city ;
+    AsyncStorage.setItem('selected_city', selected_city);
 
 //pls dont delete it
 //      {this.props.navigation.state.params.Selected_city
@@ -149,11 +150,11 @@ const styles = StyleSheet.create({
   TextInputStyleClass:{
    textAlign: 'center',
    height: 40,
+   marginTop:10,
    borderWidth: 1,
    borderColor: '#009688',
    borderRadius: 7 ,
-   backgroundColor : "#FFFFFF",
-   marginTop:10
+   backgroundColor : "#FFFFFF"
    },
      buttonContainer: {
        height:45,

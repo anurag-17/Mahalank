@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Text, View, AsyncStorage, Image, ListView, ImageBackground, ActivityIndicator, TouchableHighlight, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, Alert, View, AsyncStorage, Image, ListView, ImageBackground, ActivityIndicator, TouchableHighlight, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
-AsyncStorage.getItem('store_name').then(asyncStorageRes => {
-  // console.log(asyncStorageRes, "user name")
-  this.setState({
-
-    store_name: asyncStorageRes
-
-  });
-
-});
 
 class StoreProfile extends Component {
 
@@ -24,54 +14,51 @@ class StoreProfile extends Component {
 
     this.state = {
       storeid: '',
+      store_id: '',
       isLoading: true,
       categorydata: [],
       product_id: '',
-
-      selected_city: '',
+      dataSource: {},
+      selected_city,
       store_name: '',
       banner: '',
-      id: '',
-
-      dataSource: {},
+      ID:'',
       hasCategories: false,
     };
 
-
     this.makeCategoryRequest()
 
+  }
 
-    AsyncStorage.getItem('banner').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "baneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeer")
+
+  componentWillMount() {
+    AsyncStorage.getItem('selected_city')
+      .then(selected_city => {
+        this.setState({
+          selected_city: selected_city,
+        })
+      })
+    AsyncStorage.getItem('store_id').then(store_id => {
+      console.log(store_id, "idddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
       this.setState({
-
-        banner: asyncStorageRes
-
-      });
-
-    });
-
-
-    AsyncStorage.getItem('selected_city').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "Cityyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+        store_id: store_id,
+      })
+    })
+    AsyncStorage.getItem('store_name')
+      .then(store_name => {
+        this.setState({
+          store_name: store_name,
+        })
+      })
+    AsyncStorage.getItem('banner').then(banner => {
+      console.log(banner, "Baneeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
       this.setState({
-
-
-        selected_city: asyncStorageRes
-
-      });
-
-    });
-
-    AsyncStorage.getItem('store_name').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "store nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-      this.setState({
-
-        store_name: asyncStorageRes
-
-      });
-
-    });
+        banner: banner,
+      })
+    })
+    //   const { navigation } = this.props;
+    //   const itemId = navigation.getParam('store_name' );
+    //  Alert.alert(+itemId)
 
   }
 
@@ -86,7 +73,7 @@ class StoreProfile extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "storeid": '5'
+        "storeid": this.state.store_id
       })
     })
       .then((response) => response.json()).then((responseJson) => {
@@ -260,22 +247,25 @@ class StoreProfile extends Component {
                   position: 'relative',
                 }}>
                 <View style={{ height: 40, padding: 10, alignItems: 'center' }}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectCity')}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={styles1.storename}>
-                      {this.state.store_name}l</Text>
-                    </View>
-                  </TouchableOpacity>
+
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles1.storename}>
+                      {this.state.selected_city}</Text>
+                  </View>
+
                 </View>
                 {/* <View style={{ flex: 1, flexDirection: 'row',padding:8,alignItems:'center'}}> */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 8 }}>
                   <Text style={{ fontSize: 14, color: "#FFFFFF", textAlign: 'center', alignItems: 'center' }}>
-                  {this.state.selected_city}</Text>
-                  <Image style={{ width: 12, height: 12, alignItems: 'center', marginTop: 5, marginRight: 5 }} source={{ uri: 'https://www.controlf5.in/website-template/mobile/icon/arrow-n.png' }} />
+                    {this.state.store_name}</Text>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectCity')}>
+                    <Image style={{ width: 12, height: 12, alignItems: 'center', marginTop: 5, marginLeft: 10 }} source={{ uri: 'https://www.controlf5.in/website-template/mobile/icon/arrow-n.png' }} />
+                  </TouchableOpacity>
                 </View>
                 {/* </View> */}
                 <View style={{ alignItems: 'center' }}>
-                  <Image style={styles1.avatar} source={{ uri: this.state.banner }} />
+                  <Image style={styles1.avatar}
+                    source={{ uri: this.state.banner }} />
                 </View>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchTab')}>
                   <View style={{ alignItems: 'center' }}>
@@ -306,13 +296,15 @@ class StoreProfile extends Component {
 
         </View>
 
-      </ScrollView>
+      </ScrollView >
 
 
     );
   }
 
   render() {
+    const { navigation } = this.props;
+    const itemId = navigation.getParam('store_id');
 
     return (
 
@@ -542,13 +534,33 @@ class SearchTab extends Component {
       storeid: '',
 
     }
-    storeid = this.props.navigation.state.params.id;
+    // storeid = this.props.navigation.state.params.id ;
     this.arrayholder = [];
   }
 
   componentDidMount() {
 
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=Premium&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.setState.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        this.setState({
+          isLoading: false,
+          dataSource: ds.cloneWithRows(responseJson),
+        }, function () {
+
+          // In this block you can do something with new state.
+          this.arrayholder = responseJson;
+
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+  }
+  getshow = () => {
+    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.setState.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
       .then((response) => response.json())
       .then((responseJson) => {
         let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -620,9 +632,13 @@ class SearchTab extends Component {
           <TextInput
             style={styles.inputs}
             underlineColorAndroid='transparent'
+            value={this.state.text}
+            onChangeText={(text) => { this.setState({ text: text }) }}
             placeholder="Search in Cozmo" />
+
           <Image source={require('./Search_icon.png')} style={styles.inputIcon} />
         </View>
+
         <Text style={{ marginTop: 10, marginLeft: 10, color: 'black', fontSize: 20, }}>
           popular searches
         </Text>
@@ -653,6 +669,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
     flex: 1,
+  },
+  button: {
+    width: 40,
+
+    padding: 10,
+    backgroundColor: '#DE7A0A',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+
   },
   rowViewContainer: {
     fontSize: 17,
@@ -850,7 +877,6 @@ const styles2 = StyleSheet.create({
 
 
 });
-
 // class CustomerProfile extends Component {
 
 //   constructor(props) {
@@ -905,7 +931,7 @@ const styles2 = StyleSheet.create({
 
 //             <TextInput style={styles5.inputs}
 //               placeholder={this.state.user_nicename}
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 
@@ -914,7 +940,7 @@ const styles2 = StyleSheet.create({
 //           <View style={styles5.inputContainer}>
 //             <TextInput style={styles5.inputs}
 //               placeholder={this.state.user_email}
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 
@@ -922,40 +948,39 @@ const styles2 = StyleSheet.create({
 //           <View style={styles5.inputContainer}>
 //             <TextInput style={styles5.inputs}
 //               placeholder="Mobile No"
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 //           </View>
 //           <View style={styles5.inputContainer}>
 //             <TextInput style={styles5.inputs}
 //               placeholder="Address"
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 //           </View>
 //           <View style={styles5.inputContainer}>
 //             <TextInput style={styles5.inputs}
 //               placeholder="Pin Code"
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 //           </View>
 //           <View style={styles5.inputContainer}>
 //             <TextInput style={styles5.inputs}
 //               placeholder="City"
-//               secureTextEntry={true}
+
 //               underlineColorAndroid='#778899'
 //               onChangeText={(password) => this.setState({ password })} />
 //           </View>
 //           <TouchableOpacity style={[styles5.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('ChangePassword')}>
-//             <Text style={styles5.loginText}>Change Password</Text>
+//             <Text style={styles5.loginText}>Update Profile</Text>
 //           </TouchableOpacity>
 //         </View>
 //       </View>
 //     );
 //   }
 // }
-
 class CustomerProfile extends Component {
 
   constructor(props) {
@@ -966,11 +991,12 @@ class CustomerProfile extends Component {
 
       user_nicename1: '',
       user_email: '',
-      ID: '',
+      
       mob_no: '',
       password: '',
       username: '',
       user_login: '',
+      ID1:'51',
 
 
       first_name: '',
@@ -979,7 +1005,7 @@ class CustomerProfile extends Component {
       address_1: '',
       postcode: '',
       city: '',
-
+      ID2: '',
 
     }
 
@@ -1003,35 +1029,33 @@ class CustomerProfile extends Component {
 
     });
 
-    AsyncStorage.getItem('ID').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "ID11111111111111111111111111111111111111111111111111111111111111111111111111")
+    AsyncStorage.getItem('ID')
+    .then(ID2 => {
+      console.log(ID2, "ID11111111111111111111111111111111111111111111111111111111111111111111111111")
       this.setState({
-
-        ID: asyncStorageRes
-
+        ID2: ID2
       });
-
     });
-
+   
   }
 
 
 
   componentDidMount() {
-    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
+    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID2 + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
     return fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson, "Response")
-        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
+        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID2 + '?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
         this.setState({
 
-          first_name: responseJson[0].first_name,
-          email: responseJson[0].billing.email,
-          phone: responseJson[0].billing.phone,
-          address_1: responseJson[0].billing.address_1,
-          postcode: responseJson[0].billing.postcode,
-          city: responseJson[0].billing.city,
+          first_name: responseJson.first_name,
+          // email: responseJson[0].billing.email,
+          // phone: responseJson[0].billing.phone,
+          // address_1: responseJson[0].billing.address_1,
+          // postcode: responseJson[0].billing.postcode,
+          // city: responseJson[0].billing.city,
 
         });
 
@@ -1170,7 +1194,6 @@ const styles5 = StyleSheet.create({
   body: {
     backgroundColor: "#DCDCDC",
     height: 500,
-    padding: 10,
     alignItems: 'center',
 
   },
@@ -1239,7 +1262,7 @@ const styles5 = StyleSheet.create({
       width: 0,
       height: 9,
     },
-    shadowOpacity: 0.20,
+    shadowOpacity: 0.50,
     shadowRadius: 12.35,
 
     elevation: 3,

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StyleSheet,Text,View,Image,ImageBackground, TouchableOpacity,ScrollView,FlatList,} from 'react-native';
-import {AsyncStorage} from 'react-native';
+import { StyleSheet,Text,View,Image,Alert,AsyncStorage,ImageBackground, TouchableOpacity,ScrollView,FlatList,} from 'react-native';
+
 
 export default class StoreDetailTab extends React.Component {
   static navigationOptions = {
@@ -13,18 +13,12 @@ export default class StoreDetailTab extends React.Component {
         city_area:'',
         selected_city:'',
         city_zipcode:'',
-        cat_id: '',
-        store_name:'',
-        banner:'',
-        id:'',
+        cat_id: ''
       };
 
      selected_city = this.props.navigation.state.params.Selected_city ;
      city_area = this.props.navigation.state.params.city_area ;
      city_zipcode = this.props.navigation.state.params.city_zipcode;
-     
-     AsyncStorage.setItem('selected_city',selected_city);
-     console.log(selected_city,"cityyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
 
     }
 
@@ -47,6 +41,14 @@ export default class StoreDetailTab extends React.Component {
         });
 
     }
+    getdata=(value)=>{
+      AsyncStorage.setItem('store_id', value.id);
+      console.log(value.id,"id111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+      AsyncStorage.setItem('store_name', value.store_name);
+      AsyncStorage.setItem('banner', value.banner);
+      console.log(value.banner,"bannerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+      this.props.navigation.navigate('App');
+    }
 
   renderStores(){
 
@@ -55,27 +57,12 @@ export default class StoreDetailTab extends React.Component {
        fetch(url)
          .then(res => res.json())
          .then(responseJson => {
-          // console.log(responseJson[0],"responseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+
             this.setState({
 
-                     storedata: responseJson,
-                     store_name:responseJson[0].store_name,
-                     banner:responseJson[0].banner,
-                     id:responseJson[0].id,
+                     storedata: responseJson
 
             });
-
-            // console.log(this.state.storedata,"response")
-            // console.log(this.state.store_name,"store nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-            // console.log(this.state.banner,"banneeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-            // console.log(this.state.id,"iddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
-            
-
-            AsyncStorage.setItem('id', this.state.id);
-            AsyncStorage.setItem('store_name', this.state.store_name);
-            AsyncStorage.setItem('banner', this.state.banner);
-
-            console.log(this.state.banner,"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
          })
          .catch(error => {
            this.setState({ error, loading: false });
@@ -92,14 +79,14 @@ export default class StoreDetailTab extends React.Component {
                             keyExtractor={({id}, index) => id.toString()}
                             renderItem={({item}) => {
                             return (
+                              
 
                                 <TouchableOpacity style={styles.storecard}
-                                                           onPress={() => this.props.navigation.navigate('App', {
-                                                                                                              store_id: item.id,
-                                                                                                              banner:item.banner,
-                                                                                                              store_name:item.store_name
-                                                                                                                            })  }>
+                                                           onPress={() => this.getdata(item)  }>
+                                                                                                                              
+
                                      <Image style={styles.storeimage} source={{uri: item.banner}}/>
+                                     
                                      <View style={styles.storecardContent}>
                                         <View>
                                              <Text style={styles.name}>{item.store_name}</Text>

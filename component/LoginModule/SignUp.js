@@ -190,9 +190,8 @@ export default class SignUp extends Component {
               </View>
             </View>
           </View>
-
           <View style={{ justifyContent: "flex-start", flex: 1, flexDirection: 'row' }}>
-            <Text style={{ flex: 1,marginTop: 8, color: '#4a4a4a', fontSize: 15, }}>
+            <Text style={{ flex: 1, marginTop: 8, color: '#4a4a4a', fontSize: 15, }}>
               ADDRESS
           </Text>
           </View>
@@ -255,7 +254,7 @@ export default class SignUp extends Component {
           <View style={{ alignSelf: 'stretch', backgroundColor: 'white', marginTop: 15, alignItems: 'center', padding: 10, }}>
             <Text style={{ color: 'black', fontSize: 13, }}>
               By registering, I confirm that i have read and agree to the
-        </Text>
+ </Text>
 
             <Text style={{ color: '#421a8d', fontSize: 15, }}>
               TERMS & CONDITION and PRIVACY POLICY

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ScrollView, ToastAndroid } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet,FlatList,Image,ScrollView ,ToastAndroid} from "react-native";
 import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
 import PropTypes from "prop-types";
 
@@ -7,10 +7,9 @@ export default class AddToCart extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-      number: this.props.start,
-      dataSource: []
+      this.state = {
+          number: this.props.start,
+          dataSource:[]
     };
 
     // bind functions..
@@ -21,23 +20,23 @@ export default class AddToCart extends Component {
   componentDidMount() {
 
     return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
-      .then((response) => response.json())
-      .then((responseJson) => {
+            .then((response) => response.json())
+            .then((responseJson) => {
 
-        // console.log(responseJson)
+                 console.log(responseJson)
 
-        this.setState({
+                  this.setState({
 
-          dataSource: responseJson,
+                    dataSource: responseJson,
 
 
-        });
+                  });
 
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+   }
 
   onPressMinus() {
     const { number } = this.state;
@@ -91,17 +90,17 @@ export default class AddToCart extends Component {
             touchableColor
           )
         ) : (
-            <Text
-              style={[
-                Styles.iconText,
-                {
-                  color: isMinusDisabled ? touchableDisabledColor : touchableColor
-                }
-              ]}
-            >
-              -
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isMinusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+             -
           </Text>
-          )}
+        )}
       </TouchableOpacity>
     );
   }
@@ -131,77 +130,77 @@ export default class AddToCart extends Component {
             touchableColor
           )
         ) : (
-            <Text
-              style={[
-                Styles.iconText,
-                {
-                  color: isPlusDisabled ? touchableDisabledColor : touchableColor
-                }
-              ]}
-            >
-              +
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isPlusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+            +
           </Text>
-          )}
+        )}
       </TouchableOpacity>
     );
   }
 
-  removeItem(key) {
+ removeItem(key) {
 
-    const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/add?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96";
+      const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/add";
 
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "cart_item_key": key,
+               fetch(url, {
+                       method: 'DELETE',
+                          headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            "cart_item_key": key,
 
-      })
-    })
-      .then((response) => response.json()).then((responseJson) => {
+                          })
+                 })
+               .then((response) => response.json()).then((responseJson) => {
 
-        let data = this.state.dataSource
-        data = data.filter((item) => item.key !== key)
-        this.setState({
-          dataSource: data,
-        })
+                            let data = this.state.dataSource
+                            data = data.filter((item) => item.key !== key)
+                            this.setState({
+                              dataSource: data,
+                            })
 
-        ToastAndroid.show('Your item is deleted!', ToastAndroid.SHORT);
+                         ToastAndroid.show('Your item is deleted!', ToastAndroid.SHORT);
 
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
+               })
+               .catch(error => {
+                 this.setState({ error, loading: false });
+               });
 
 
   }
 
-  updateItem(key) {
-    const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/cart-item?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96";
+  updateItem(key){
+         const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/cart-item";
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "cart_item_key": key,
-        "quantity": '1'
+                    fetch(url, {
+                            method: 'POST',
+                               headers: {
+                                 'Accept': 'application/json',
+                                 'Content-Type': 'application/json',
+                               },
+                               body: JSON.stringify({
+                                 "cart_item_key": key,
+                                 "quantity":this.state.quantity
 
-      })
-    })
-      .then((response) => response.json()).then((responseJson) => {
+                               })
+                      })
+                    .then((response) => response.json()).then((responseJson) => {
 
-        ToastAndroid.show('Your item is Updated!', ToastAndroid.SHORT);
+                              ToastAndroid.show('Your item is Updated!', ToastAndroid.SHORT);
 
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
+                    })
+                    .catch(error => {
+                      this.setState({ error, loading: false });
+                    });
   }
 
 
@@ -209,113 +208,113 @@ export default class AddToCart extends Component {
     const { number } = this.state;
 
     return (
-      <ScrollView>
-        <View>
-          <Content scrollEnabled={false}>
-            <FlatList
-              data={this.state.dataSource}
-              renderItem={({ item }) => <SwipeRow
-                leftOpenValue={75}
-                rightOpenValue={-75}
-                left={
-                  <Button success onPress={() => this.updateItem(item.key)} >
-                    <Icon active name="add" />
-                  </Button>
-                }
-                body={
+    <ScrollView>
+     <View>
+     <Content scrollEnabled={false}>
+     <FlatList
+                 data={this.state.dataSource}
+                 renderItem={({ item }) => <SwipeRow
+                   leftOpenValue={75}
+                   rightOpenValue={-75}
+                   left={
+                     <Button success onPress={() => this.updateItem(item.key)} >
+                       <Icon active name="add" />
+                     </Button>
+                   }
+                   body={
+                    
+                      <View style={{flex:1,flexDirection:'row'}}>
 
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                      <TouchableOpacity   onPress={() => this.props.navigation.navigate('ViewDetailItem', {
+                                                                                            product_id: item.product_id,
+                                                                                            product_image:item.product_image,
+                                                                                                          })}>
 
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewDetailItem', {
-                      product_id: item.product_id,
-                      product_image: item.product_image,
-                    })}>
-
-                      <Image style={Styles.image} source={{ uri: item.product_image }} />
+                       <Image style={Styles.image} source={{uri: item.product_image}}/>
 
                     </TouchableOpacity>
 
-                    <View style={Styles.boxContent}>
-                      <Text style={Styles.title}>{item.product_name}</Text>
-                      <View style={Styles.container}>
+                        <View style={Styles.boxContent}>
+                           <Text style={Styles.title}>{item.product_name}</Text>
+                           <View style={Styles.container}>
 
-                        <View><Text style={Styles.text} >Quantity : </Text></View>
-                        <View style={Styles.number}>
-                          <Text style={[Styles.text, { color: this.props.textColor }]}>{item.quantity}</Text>
+                               <View><Text style={Styles.text} >Quantity : </Text></View>
+                               <View style={Styles.number}>
+                                        <Text style={[Styles.text, { color: this.props.textColor }]}>{item.quantity}</Text>
+                               </View>
+                               <View><Text  style={Styles.text}>Price : {item.line_total}</Text></View>
+                           </View>
                         </View>
-                        <View><Text style={Styles.text}>Price : 14 $</Text></View>
-                      </View>
-                    </View>
 
 
-                  </View>
-                }
-                right={
-                  <Button danger onPress={() => this.removeItem(item.key)}>
-                    <Icon active name="trash" />
-                  </Button>
-                }
-              />}
-            />
+                     </View>
+                   }
+                   right={
+                     <Button danger onPress={() => this.removeItem(item.key)}>
+                       <Icon active name="trash" />
+                     </Button>
+                   }
+                 />}
+               />
 
-          </Content>
+             </Content>
 
-          <View style={Styles.addToCarContainer}>
-            <TouchableOpacity style={Styles.shareButton} onPress={() => this.props.navigation.navigate('Checkout')}>
-              <Text style={Styles.shareButtonText}>Checkout Now</Text>
-            </TouchableOpacity>
-          </View>
-
-        </View>
-      </ScrollView>
+             <View style={Styles.addToCarContainer}>
+               <TouchableOpacity style={Styles.shareButton} onPress={() => this.props.navigation.navigate('Checkout')}>
+               <Text style={Styles.shareButtonText}>Checkout Now</Text>
+               </TouchableOpacity>
+             </View>
+            
+           </View>
+</ScrollView>
     );
   }
 }
 
 const Styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+     marginTop:20,
     flexDirection: "row"
   },
-  box: {
-    padding: 20,
-    marginTop: 5,
-    marginBottom: 5,
+box: {
+    padding:20,
+    marginTop:5,
+    marginBottom:5,
     backgroundColor: 'white',
     flexDirection: 'row',
   },
 
   text: {
     fontSize: 14,
-    marginLeft: 10,
+    marginLeft:10,
 
   },
-  image: {
-    width: 90,
-    height: 80,
-  },
-  boxContent: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginLeft: 10,
-  },
-  description: {
-    marginTop: 10,
-    fontSize: 15,
-    color: "#646464",
-  },
-  title: {
-    fontSize: 18,
-    color: "#151515",
-  },
+   image: {
+      width:90,
+      height:80,
+    },
+      boxContent: {
+        flex:1,
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        marginLeft:10,
+      },
+      description:{
+        marginTop:10,
+        fontSize:15,
+        color: "#646464",
+      },
+      title:{
+        fontSize:18,
+        color:"#151515",
+      },
 
-  product_name: {
-    fontSize: 20,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 5
-  },
+   product_name: {
+      fontSize: 20,
+      paddingLeft: 15,
+      paddingRight: 15,
+      marginTop:5
+    },
 
   iconText: {
     fontSize: 22,
@@ -328,21 +327,21 @@ const Styles = StyleSheet.create({
     justifyContent: "center"
   },
   shareButton: {
-    marginTop: 10,
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#421a8d",
-    marginBottom: 20,
-  },
-  shareButtonText: {
-    color: "#FFFFFF",
-    fontSize: 20,
-  },
-  addToCarContainer: {
-    marginHorizontal: 10
-  },
+          marginTop:10,
+          height:45,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: "#421a8d",
+          marginBottom:20,
+        },
+        shareButtonText:{
+          color: "#FFFFFF",
+          fontSize:20,
+        },
+        addToCarContainer:{
+          marginHorizontal:10
+        },
 
   touchable: {
     width: 35,
@@ -375,22 +374,22 @@ AddToCart.defaultProps = {
   onChange(number, type) {
     // Number, - or +
   },
-  shareButton: {
-    marginTop: 10,
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#421a8d",
-    marginBottom: 20,
-  },
-  shareButtonText: {
-    color: "#FFFFFF",
-    fontSize: 20,
-  },
-  addToCarContainer: {
-    marginHorizontal: 10
-  },
+   shareButton: {
+        marginTop:10,
+        height:45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#421a8d",
+        marginBottom:20,
+      },
+      shareButtonText:{
+        color: "#FFFFFF",
+        fontSize:20,
+      },
+      addToCarContainer:{
+        marginHorizontal:10
+      },
 
   textColor: "#196583",
   touchableColor: "#27AAE1",

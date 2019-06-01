@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ScrollView, ToastAndroid,ActivityIndicator } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ScrollView, ToastAndroid, ActivityIndicator } from "react-native";
 import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
 import PropTypes from "prop-types";
 
@@ -7,7 +7,7 @@ export default class YourOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    isLoading: true,
+      isLoading: true,
     };
   }
   componentDidMount() {
@@ -30,7 +30,7 @@ export default class YourOrder extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
+        <View style={{ flex: 1, paddingTop: 20 }}>
           <ActivityIndicator />
         </View>
       );

@@ -56,13 +56,13 @@ export default class LogIn extends Component {
                                  username : responseJson.data.user_login,
                                  user_nicename : responseJson.data.user_nicename,
                                  user_email : responseJson.data.user_email,
-                                 ID : responseJson.data.ID,
+                                 ID:responseJson.data.ID,
 
                                });
 
                                console.log(this.state.username)
-                               console.log(this.state.ID)
-                               
+                               console.log(this.state.ID,"idddddddddddddddddddddddddddddddddddddddddddddddddd11111111")
+
                                AsyncStorage.setItem('session_is', this.state.username);
                                AsyncStorage.setItem('user_nicename', this.state.user_nicename);
                                AsyncStorage.setItem('user_email', this.state.user_email);
@@ -109,7 +109,7 @@ export default class LogIn extends Component {
 
    <View style={styles.row1}>
      <View style={styles.inputContainer1}>
-     <TextInput style={styles.inputs1} secureTextEntry={true}   onChangeText={(pswd) => this.setState({password: pswd})}
+     <TextInput style={styles.inputs1} secureTextEntry={true}  onChangeText={(pswd) => this.setState({password: pswd})}
      placeholder="Password"
      underlineColorAndroid='#778899'/>
     </View>
