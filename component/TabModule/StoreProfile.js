@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Text, Alert, View, AsyncStorage, Image, ListView, ImageBackground, ActivityIndicator, TouchableHighlight, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, Alert, View, AsyncStorage, Image, ListView, ImageBackground, ActivityIndicator, TouchableHighlight, TouchableOpacity, ScrollView, FlatList, TextInput, Button } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -22,7 +22,7 @@ class StoreProfile extends Component {
       selected_city,
       store_name: '',
       banner: '',
-      ID:'',
+      ID: '',
       hasCategories: false,
     };
 
@@ -532,17 +532,29 @@ class SearchTab extends Component {
       isLoading: true,
       text: '',
       storeid: '',
+      selected_city,
+
+
 
     }
     // storeid = this.props.navigation.state.params.id ;
     this.arrayholder = [];
+
+    AsyncStorage.getItem('selected_city')
+      .then(selected_city => {
+        this.setState({
+          selected_city: selected_city,
+        })
+      });
   }
 
   componentDidMount() {
 
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.setState.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log(responseJson, "Response22222222222222222222222222222222222222222222222222222222")
+        console.log("url", 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
         let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.setState({
           isLoading: false,
@@ -560,9 +572,11 @@ class SearchTab extends Component {
 
   }
   getshow = () => {
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.setState.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log(responseJson, "Response3333333333333333333333333333333333333333333")
+        console.log("url111111111111111111111111", 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
         let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.setState({
           isLoading: false,
@@ -634,10 +648,11 @@ class SearchTab extends Component {
             underlineColorAndroid='transparent'
             value={this.state.text}
             onChangeText={(text) => { this.setState({ text: text }) }}
-            placeholder="Search in Cozmo" />
+            placeholder={this.state.selected_city} />
 
           <Image source={require('./Search_icon.png')} style={styles.inputIcon} />
         </View>
+        <Button style={{ width: 50, height: 20 }} color="#421a8d" title="search" onPress={this.getshow.bind(this.state.text)} />
 
         <Text style={{ marginTop: 10, marginLeft: 10, color: 'black', fontSize: 20, }}>
           popular searches
@@ -649,7 +664,7 @@ class SearchTab extends Component {
 
           renderSeparator={this.ListViewItemSeparator}
 
-          renderRow={(rowData) => <TouchableHighlight style={styles.rowStyle} underlayColor='#421a8d' onPress={() => this.props.navigation.navigate('MainMenuTab')}>
+          renderRow={(rowData) => <TouchableHighlight style={styles.rowStyle} underlayColor='#421a8d' onPress={() => this.props.navigation.navigate('StoreProfile')}>
             <Text style={styles.rowText}>{rowData.name}</Text>
           </TouchableHighlight>
           }
@@ -991,12 +1006,12 @@ class CustomerProfile extends Component {
 
       user_nicename1: '',
       user_email: '',
-      
+
       mob_no: '',
       password: '',
       username: '',
       user_login: '',
-      ID1:'51',
+      ID1: '51',
 
 
       first_name: '',
@@ -1005,7 +1020,7 @@ class CustomerProfile extends Component {
       address_1: '',
       postcode: '',
       city: '',
-      ID2: '',
+      ID: '',
 
     }
 
@@ -1030,32 +1045,32 @@ class CustomerProfile extends Component {
     });
 
     AsyncStorage.getItem('ID')
-    .then(ID2 => {
-      console.log(ID2, "ID11111111111111111111111111111111111111111111111111111111111111111111111111")
-      this.setState({
-        ID2: ID2
+      .then(ID => {
+        console.log(ID, "ID11111111111111111111111111111111111111111111111111111111111111111111111111")
+        this.setState({
+          ID: ID
+        });
       });
-    });
-   
+
   }
 
 
 
   componentDidMount() {
-    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID2 + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
+    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' +this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
     return fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson, "Response")
-        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID2 + '?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
+        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' +this.state.ID+ '?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
         this.setState({
 
-          first_name: responseJson.first_name,
-          // email: responseJson[0].billing.email,
-          // phone: responseJson[0].billing.phone,
-          // address_1: responseJson[0].billing.address_1,
-          // postcode: responseJson[0].billing.postcode,
-          // city: responseJson[0].billing.city,
+          first_name: responseJson[0].first_name,
+          email: responseJson[0].billing.email,
+          phone: responseJson[0].billing.phone,
+          address_1: responseJson[0].billing.address_1,
+          postcode: responseJson[0].billing.postcode,
+          city: responseJson[0].billing.city,
 
         });
 
