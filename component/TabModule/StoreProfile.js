@@ -1057,12 +1057,12 @@ class CustomerProfile extends Component {
 
 
   componentDidMount() {
-    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' +this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
+    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/'+this.state.ID+'/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
     return fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson, "Response")
-        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' +this.state.ID+ '?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
+        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/'+this.state.ID+'/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
         this.setState({
 
           first_name: responseJson[0].first_name,

@@ -16,6 +16,7 @@ class ViewDetailItem  extends Component  {
        average_rating:'',
        price:'',
        number: this.props.start,
+      //  number:'',
      };
 
       productImg = this.props.navigation.state.params.product_image ;
@@ -90,7 +91,7 @@ class ViewDetailItem  extends Component  {
                        },
                        body: JSON.stringify({
                          "product_id": productId,
-                         "quantity": '1'
+                         "quantity": this.state.number
                        })
               })
             .then((response) => response.json()).then((responseJson) => {
@@ -199,7 +200,7 @@ class ViewDetailItem  extends Component  {
                 <Image style={styles.productImg} source={{uri:productImg}}/>
                 <Text style={styles.name}>{this.state.product_name}</Text>
 
-                <Text style={styles.price}>{this.state.price} /- Rs</Text>
+                <Text style={styles.price}>Price {this.state.price} /- Rs</Text>
 
                 <View style={{borderBottomColor: '#000',borderBottomWidth: .5,alignSelf: 'stretch',marginTop:10,}}/>
 

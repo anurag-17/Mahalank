@@ -8,20 +8,20 @@ export default class ForgotPassword extends Component {
     <View style={styles.container}>
 
     <Text style={{ marginTop:20 ,marginLeft: 10, color: 'black', fontSize: 15,textAlign: 'center',}}>
-           Don't worry we will send you a new pin to your register mobile number
+           Don't worry we will send you a new pin to your register Email Address
      </Text>
 
       <View style={styles.row}>
 
         <View style={styles.inputWrap}>
-        <Image style={styles.inputIcon} source={{uri:'https://www.controlf5.in/website-template/Consulting/images/flag3.jpg'}}/>
+        <Image style={styles.inputIcon} source={{uri:'https://www.controlf5.in/website-template/Consulting/images/flag4.jpg'}}/>
         </View>
 
       <View style={styles.inputWrap}>
 
           <View style={styles.inputContainer}>
             <TextInput style={styles.inputs}
-              placeholder="Mobile Number"
+              placeholder="Email"
               underlineColorAndroid='#778899'/>
         </View>
 
@@ -47,6 +47,7 @@ container:{
  justifyContent: 'center',
  alignItems: 'center',
  flex:1,
+ padding:10
  },
   row: {
     flex: 1,
@@ -77,7 +78,7 @@ container:{
         borderBottomWidth: 1,
         marginLeft:-70,
         marginTop:2,
-        width:280,
+        width:'135%',
         height:45,
         flexDirection: 'row',
 

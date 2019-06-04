@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
      backgroundColor:'white',
      justifyContent: 'center',
      alignItems:'center',
+     padding:10,
      
      },
       row: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginLeft:-75,
         marginTop:2,
-        width:280,
+        width:'135%',
         height:45,
         flexDirection: 'row',
 
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
              backgroundColor: '#FFFFFF',
              borderBottomWidth: 1,
              marginTop:2,
-             width:400,
+             width:'100%',
              height:45,
              flexDirection: 'row',
 
