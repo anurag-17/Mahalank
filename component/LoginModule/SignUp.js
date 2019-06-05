@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, ScrollView, Alert, ToastAndroid } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image, Switch, AppRegistry, TouchableOpacity, ScrollView, Alert, ToastAndroid } from "react-native";
 import { LoginManager, AccessToken, GraphRequestManager, GraphRequest } from 'react-native-fbsdk';
 import { withNavigation } from 'react-navigation';
 
@@ -10,7 +10,7 @@ export default class SignUp extends Component {
 
   constructor(props) {
     super(props);
-
+    this.toggleSwitch = this.toggleSwitch.bind(this);
     this.state = {
       first_name: '',
       last_name: '',
@@ -22,10 +22,13 @@ export default class SignUp extends Component {
       address: '',
       city: '',
       town: '',
+      showPassword: true,
 
     }
   }
-
+  toggleSwitch() {
+    this.setState({ showPassword: !this.state.showPassword });
+  }
   responseInfoCallback = (error, result) => {
 
     setTimeout(() => {
@@ -161,14 +164,28 @@ export default class SignUp extends Component {
               </View>
             </View>
 
-            <View style={styles.row3add}>
+            <View style={{ flexDirection: 'row', flex: 1, marginTop: 20,}}>
+              <TextInput style={{ height: 45, width: 330, backgroundColor: 'white' }}
+                placeholderTextColor="gray"
+                placeholder="Password"
+                secureTextEntry={this.state.showPassword}
+                underlineColorAndroid='#778899'
+                onChangeText={(pswd) => this.setState({ password: pswd })}
+              />
+              <Switch style={{ height: 45, width: 50, backgroundColor: 'white', marginLeft: 5, justifyContent: 'flex-end' }}
+                onValueChange={this.toggleSwitch}
+                value={!this.state.showPassword}
+              />
+            </View>
+
+            {/* <View style={styles.row3add}>
               <View style={styles.inputContainer3add}>
-                <TextInput style={styles.inputs3add} secureTextEntry={true}  onChangeText={(pswd) => this.setState({ password: pswd })}
+                <TextInput style={styles.inputs3add} secureTextEntry={true} onChangeText={(pswd) => this.setState({ password: pswd })}
                   placeholder="Create Password"
                   placeholderTextColor="#a8a8a8"
                   placeholerTextSize="10" />
               </View>
-            </View>
+            </View> */}
 
           </View>
           <View style={{ justifyContent: "flex-start", flex: 1, flexDirection: 'row' }}>

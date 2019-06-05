@@ -1,105 +1,106 @@
 import * as React from 'react';
-import { StyleSheet,Text,View,Image,Alert,AsyncStorage,ImageBackground, TouchableOpacity,ScrollView,FlatList,} from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, AsyncStorage, ImageBackground, TouchableOpacity, ScrollView, FlatList, } from 'react-native';
 
 
 export default class StoreDetailTab extends React.Component {
   static navigationOptions = {
     header: null
-};
-   constructor(props) {
+  };
+  constructor(props) {
     super(props);
 
     this.state = {
-        city_area:'',
-        selected_city:'',
-        city_zipcode:'',
-        cat_id: ''
-      };
+      city_area: '',
+      selected_city: '',
+      city_zipcode: '',
+      cat_id: ''
+    };
 
-     selected_city = this.props.navigation.state.params.Selected_city ;
-     city_area = this.props.navigation.state.params.city_area ;
-     city_zipcode = this.props.navigation.state.params.city_zipcode;
+    selected_city = this.props.navigation.state.params.Selected_city;
+    city_area = this.props.navigation.state.params.city_area;
+    city_zipcode = this.props.navigation.state.params.city_zipcode;
 
-    }
+  }
 
-    componentDidMount() {
+  componentDidMount() {
 
-      return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products/categories?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
-        .then((response) => response.json())
-        .then((responseJson) => {
+    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products/categories?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+      .then((response) => response.json())
+      .then((responseJson) => {
 
-              this.setState({
+        this.setState({
 
-                cat_id:responseJson[0].id,
-                dataSource: responseJson,
+          cat_id: responseJson[0].id,
+          dataSource: responseJson,
 
-              });
-
-        })
-        .catch((error) => {
-          console.error(error);
         });
 
-    }
-    getdata=(value)=>{
-      AsyncStorage.setItem('store_id', value.id);
-      console.log(value.id,"id111111111111111111111111111111111111111111111111111111111111111111111111111111111")
-      AsyncStorage.setItem('store_name', value.store_name);
-      AsyncStorage.setItem('banner', value.banner);
-      console.log(value.banner,"bannerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-      this.props.navigation.navigate('App');
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-  renderStores(){
+  }
+  getdata = (value) => {
+    AsyncStorage.setItem('store_id', value.id);
+    console.log(value.id, "id111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+    AsyncStorage.setItem('store_name', value.store_name);
+    AsyncStorage.setItem('banner', value.banner);
+    console.log(value.banner, "bannerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    this.props.navigation.navigate('App');
+  }
 
-       const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/catestore?cat_id=' + this.state.cat_id ;
+  renderStores() {
 
-       fetch(url)
-         .then(res => res.json())
-         .then(responseJson => {
+    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/catestore?cat_id=' + this.state.cat_id;
 
-            this.setState({
+    fetch(url)
+      .then(res => res.json())
+      .then(responseJson => {
 
-                     storedata: responseJson
+        this.setState({
 
-            });
-         })
-         .catch(error => {
-           this.setState({ error, loading: false });
-         });
+          storedata: responseJson
 
-         return(
+        });
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
 
-            <ScrollView>
-                 <View >
-                     <FlatList
-                            style={styles.contentList}
-                            columnWrapperStyle={styles.listContainer}
-                            data={this.state.storedata}
-                            keyExtractor={({id}, index) => id.toString()}
-                            renderItem={({item}) => {
-                            return (
-                              
+    return (
 
-                                <TouchableOpacity style={styles.storecard}
-                                                           onPress={() => this.getdata(item)  }>
-                                                                                                                              
+      <ScrollView>
+        <View >
+          <FlatList
+            style={styles.contentList}
+            columnWrapperStyle={styles.listContainer}
+            data={this.state.storedata}
+            keyExtractor={({ id }, index) => id.toString()}
+            renderItem={({ item }) => {
+              return (
 
-                                     <Image style={styles.storeimage} source={{uri: item.banner}}/>
-                                     
-                                     <View style={styles.storecardContent}>
-                                        <View>
-                                             <Text style={styles.name}>{item.store_name}</Text>
-                                              <Text style={styles.followButtonText}>Same as store prizes </Text>
-                                        </View>
 
-                                     </View>
-                                </TouchableOpacity>
-                        )}}/>
+                <TouchableOpacity style={styles.storecard}
+                  onPress={() => this.getdata(item)}>
+
+
+                  <Image style={styles.storeimage} source={{ uri: item.banner }} />
+
+                  <View style={styles.storecardContent}>
+                    <View>
+                      <Text style={styles.name}>{item.store_name}</Text>
+                      <Text style={styles.followButtonText}>Same as store prizes </Text>
+                    </View>
+
                   </View>
-            </ScrollView>
+                </TouchableOpacity>
+              )
+            }} />
+        </View>
+      </ScrollView>
 
-         )
+    )
 
   }
 
@@ -109,53 +110,52 @@ export default class StoreDetailTab extends React.Component {
 
       <View style={styles.container}>
 
-           <Text style={{ marginLeft: 10, color: 'black', fontSize: 30,textAlign: 'center', fontWeight: 'bold',}}>
-                     Welcome to Mahalak
+        <Text style={{ marginLeft: 10, color: 'black', fontSize: 30, textAlign: 'center', fontWeight: 'bold', }}>
+          Welcome to Mahalak
             </Text>
-            <Text style={{color: '#421a8d', fontSize: 10,textAlign: 'center',}}>
-                   {selected_city},{city_area}
-            </Text>
-             <View style={styles.inputContainer}>
-                   <Text style={{color: '#421a8d', fontSize: 15,textAlign: 'center', marginLeft:150,}}>
-                           Stores in {selected_city}
-                   </Text>
-                      <Image source={require('./arrow.png')} style={styles.inputIcon}/>
-                      <Image source={require('./map.png')} style={styles.inputIconMap}/>
-             </View>
+        <Text style={{ color: '#421a8d', fontSize: 10, textAlign: 'center', }}>
+          {selected_city},{city_area}
+        </Text>
+        <View style={styles.inputContainer}>
+          <Text style={{ color: '#421a8d', fontSize: 15, textAlign: 'center', marginLeft: 150, }}>
+            Stores in {selected_city}
+          </Text>
+          <Image source={require('./arrow.png')} style={styles.inputIcon} />
+          <Image source={require('./map.png')} style={styles.inputIconMap} />
+        </View>
 
         <View >
-                <FlatList
-                  data={this.state.dataSource}
-                  horizontal={true}
+          <FlatList
+            data={this.state.dataSource}
+            horizontal={true}
 
-                  keyExtractor={({id}, index) => id.toString()}
+            keyExtractor={({ id }, index) => id.toString()}
 
-                  renderItem={({item}) => {
+            renderItem={({ item }) => {
 
-                    return (
+              return (
+                <ScrollView>
+                  <View style={styles.card}>
 
-                          <View style={styles.card}>
+                    <TouchableOpacity onPress={() => this.setState({ cat_id: item.id })}>
 
-                              <TouchableOpacity   onPress={() => this.setState({ cat_id: item.id })}>
+                      <View style={styles.imageContainer}>
 
-                                   <View style={styles.imageContainer}>
+                        <View>
+                          <Text style={styles.name}>{item.name}</Text>
+                        </View>
+                      </View>
 
-                                     <View>
-                                       <Text style={styles.name}>{item.name}</Text>
-
-                                     </View>
-                                   </View>
-
-                              </TouchableOpacity>
+                    </TouchableOpacity>
 
 
-                          </View>
-
-                        )
-                      }
-                   }
-                />
-          </View>
+                  </View>
+                </ScrollView>
+              )
+            }
+            }
+          />
+        </View>
         <View style={{ backgroundColor: '#ffffff' }}>
           {this.renderStores()}
         </View>
@@ -187,101 +187,101 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   inputContainer: {
-       borderBottomColor: '#F5FCFF',
-       backgroundColor: '#FFFFFF',
-       borderRadius:7,
-       borderBottomWidth: 1,
-       height:45,
-       marginBottom:20,
-       flexDirection: 'row',
-       alignItems:'center',
-       marginTop:20,
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 7,
+    borderBottomWidth: 1,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
 
-       shadowColor: "#808080",
-       shadowOffset: {
-       width: 0,
-       height: 2,
-   },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+    shadowColor: "#808080",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
-      elevation: 5,
-   },
-    inputIcon:{
-              width:15,
-              height:15,
-              marginRight:15,
-              justifyContent: 'center',
-              position: 'absolute',
-              right: 5,
-            },
-              inputIconMap:{
-               width:20,
-               height:20,
-               marginLeft:15,
-               justifyContent: 'center',
-               position: 'absolute',
-               left: 5,
-             },
-    card:{
-        shadowColor: '#00000021',
-        shadowOffset: {
-          width: 0,
-          height: 6,
-        },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        marginLeft: 10,
-        marginRight: 10,
-        backgroundColor:"white",
-        padding: 10,
-        flexDirection:'row',
+    elevation: 5,
+  },
+  inputIcon: {
+    width: 15,
+    height: 15,
+    marginRight: 15,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 5,
+  },
+  inputIconMap: {
+    width: 20,
+    height: 20,
+    marginLeft: 15,
+    justifyContent: 'center',
+    position: 'absolute',
+    left: 5,
+  },
+  card: {
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "white",
+    padding: 10,
+    flexDirection: 'row',
 
-      },
-       imageContainer:{
-                 shadowColor: "#000",
-                 shadowOffset: {
-                   width: 0,
-                   height: 4,
-                 },
-                 shadowOpacity: 0.32,
+  },
+  imageContainer: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
 
-               },
-        contentList:{
-                  flex:1,
-                },
-         followButtonText:{
-                   color: "#dcdcdc",
-                   fontSize:14,
-                 },
+  },
+  contentList: {
+    flex: 1,
+  },
+  followButtonText: {
+    color: "#dcdcdc",
+    fontSize: 14,
+  },
 
-      storecardContent: {
-                marginLeft:10,
-                marginTop:5
-              },
-              storeimage:{
-                width:90,
-                height:90,
-                borderRadius:2,
-                borderWidth:2,
-                borderColor:"#ebf0f7"
-              },
+  storecardContent: {
+    marginLeft: 10,
+    marginTop: 5
+  },
+  storeimage: {
+    width: 90,
+    height: 90,
+    borderRadius: 2,
+    borderWidth: 2,
+    borderColor: "#ebf0f7"
+  },
 
-          storecard:{
-            shadowColor: '#00000021',
-            shadowOffset: {
-              width: 0,
-              height: 6,
-            },
-            shadowOpacity: 0.37,
-            shadowRadius: 7.49,
-            elevation: 12,
-            marginLeft: 10,
-            marginRight: 10,
-            marginTop:10,
-            backgroundColor:"white",
-            padding: 10,
-            flexDirection:'row',
-            borderRadius:6,
-          },
+  storecard: {
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    backgroundColor: "white",
+    padding: 10,
+    flexDirection: 'row',
+    borderRadius: 6,
+  },
 });
