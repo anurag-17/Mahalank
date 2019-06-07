@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Switch, AppRegistry, TextInput, Image, TouchableOpacity, ScrollView, ToastAndroid } from "react-native";
+import { Text, View, StyleSheet, Switch, AppRegistry,Keyboard, TextInput, Image, TouchableOpacity, ScrollView, ToastAndroid } from "react-native";
 import { AsyncStorage } from 'react-native';
 
 
@@ -24,6 +24,22 @@ export default class LogIn extends Component {
     }
 
   }
+
+  // validation(){
+  //   const {mob,pswd}= this.state;
+  //   if(mob==""){
+  //     alert('please fill the Email Id')
+  //   }
+  //   else if(pswd==""){
+  //     alert('please fill the Password')
+  //   }
+  //   else{
+  //     alert('Thank You')
+  //   }
+
+  //   Keyboard.dismiss();
+  // }
+  
   toggleSwitch() {
     this.setState({ showPassword: !this.state.showPassword });
   }
@@ -108,7 +124,7 @@ export default class LogIn extends Component {
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', flex: 1, marginTop: 20, padding: 10 }}>
+          {/* <View style={{ flexDirection: 'row', flex: 1, marginTop: 20, padding: 10 }}>
             <TextInput style={{ height: 45, width: 330, backgroundColor: 'white' }}
               placeholderTextColor="gray"
               placeholder="Password"
@@ -120,15 +136,15 @@ export default class LogIn extends Component {
               onValueChange={this.toggleSwitch}
               value={!this.state.showPassword}
             />
-          </View>
+          </View> */}
 
-          {/* <View style={styles.row1}>
+          <View style={styles.row1}>
             <View style={styles.inputContainer1}>
               <TextInput style={styles.inputs1} secureTextEntry={true} onChangeText={(pswd) => this.setState({ password: pswd })}
                 placeholder="Password"
                 underlineColorAndroid='#778899' />
             </View>
-          </View> */}
+          </View>
 
           <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.__login} >
             <Text style={styles.loginText}>Login</Text>

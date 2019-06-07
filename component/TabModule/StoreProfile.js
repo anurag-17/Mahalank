@@ -39,7 +39,7 @@ class StoreProfile extends Component {
         })
       })
     AsyncStorage.getItem('store_id').then(store_id => {
-      console.log(store_id, "idddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
+      // console.log(store_id, "idddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
       this.setState({
         store_id: store_id,
       })
@@ -51,7 +51,7 @@ class StoreProfile extends Component {
         })
       })
     AsyncStorage.getItem('banner').then(banner => {
-      console.log(banner, "Baneeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+      // console.log(banner, "Baneeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
       this.setState({
         banner: banner,
       })
@@ -555,8 +555,8 @@ class SearchTab extends Component {
     return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson, "Response22222222222222222222222222222222222222222222222222222222")
-        console.log("url", 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
+        // console.log(responseJson, "Response22222222222222222222222222222222222222222222222222222222")
+        // console.log("url", 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/products?search=' + this.state.text + '&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
         let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.setState({
           isLoading: false,
@@ -1056,34 +1056,29 @@ class CustomerProfile extends Component {
 
   }
 
-
-
   componentDidMount() {
     const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
     return fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson, "Response")
+        console.log(responseJson[0], "Response")
         console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
         this.setState({
 
-          first_name: responseJson[0].first_name,
+          first_name: responseJson[0].billing.first_name,
           email: responseJson[0].billing.email,
           phone: responseJson[0].billing.phone,
           address_1: responseJson[0].billing.address_1,
           postcode: responseJson[0].billing.postcode,
           city: responseJson[0].billing.city,
-
         });
 
         AsyncStorage.setItem('first_name', this.state.first_name);
         AsyncStorage.setItem('email', this.state.email);
-        AsyncStorage.setItem('phone', this.state.phone);
+        AsyncStorage.setItem('phone', this.state.phone); 
         AsyncStorage.setItem('address_1', this.state.address_1);
         AsyncStorage.setItem('postcode', this.state.postcode);
         AsyncStorage.setItem('city', this.state.city);
-
-
       })
       .catch((error) => {
         console.error(error);

@@ -164,7 +164,7 @@ export default class SignUp extends Component {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'row', flex: 1, marginTop: 20,}}>
+            {/* <View style={{ flexDirection: 'row', flex: 1, marginTop: 20,}}>
               <TextInput style={{ height: 45, width: 330, backgroundColor: 'white' }}
                 placeholderTextColor="gray"
                 placeholder="Password"
@@ -176,16 +176,16 @@ export default class SignUp extends Component {
                 onValueChange={this.toggleSwitch}
                 value={!this.state.showPassword}
               />
-            </View>
+            </View> */}
 
-            {/* <View style={styles.row3add}>
+            <View style={styles.row3add}>
               <View style={styles.inputContainer3add}>
                 <TextInput style={styles.inputs3add} secureTextEntry={true} onChangeText={(pswd) => this.setState({ password: pswd })}
                   placeholder="Create Password"
                   placeholderTextColor="#a8a8a8"
                   placeholerTextSize="10" />
               </View>
-            </View> */}
+            </View>
 
           </View>
           <View style={{ justifyContent: "flex-start", flex: 1, flexDirection: 'row' }}>

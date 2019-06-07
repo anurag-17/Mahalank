@@ -103,7 +103,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
         </TouchableOpacity>
       ),
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: '#421a8d',
       },
       headerTintColor: '#000000',
     }),
@@ -120,7 +120,7 @@ const Screen2_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
 
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: '#421a8d',
       },
       headerTintColor: '#000000',
     }),
@@ -136,7 +136,7 @@ const Screen3_StackNavigator = createStackNavigator({
       title: 'Settings',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: '#421a8d',
       },
       headerTintColor: '#000000',
     }),
@@ -151,7 +151,7 @@ const Screen4_StackNavigator = createStackNavigator({
       title: 'Help',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: '#421a8d',
       },
       headerTintColor: '#000000',
     }),
@@ -166,7 +166,7 @@ const Screen5_StackNavigator = createStackNavigator({
       title: 'About us',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: '#421a8d',
       },
       headerTintColor: '#000000',
     }),
