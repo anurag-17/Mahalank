@@ -44,7 +44,22 @@ export default class LogIn extends Component {
     this.setState({ showPassword: !this.state.showPassword });
   }
   __login = () => {
-
+const {mob_no,password} = this.state;
+    reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    if(mob_no==""){
+      //alert('please fill the first name');
+      this.setState({Error: 'please fill the Email ID'});
+    }
+    if(reg.test(mob_no) === false){
+      this.setState({Error: 'Email is Not Correct'});
+    }
+    else if(password==""){
+      this.setState({Error: 'please fill the password'});
+    }
+    else if(password.length <4){
+      this.setState({Error: 'password  must be more than 4'});
+    }
+    else{
     fetch("https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/login?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96", {
       method: 'POST',
       headers: {
@@ -98,7 +113,7 @@ export default class LogIn extends Component {
       });
 
   }
-
+  }
 
 
   render() {
@@ -145,6 +160,9 @@ export default class LogIn extends Component {
                 underlineColorAndroid='#778899' />
             </View>
           </View>
+           <Text style={{color:'red', textAlign:'center'}}>
+           {this.state.Error}
+           </Text>
 
           <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.__login} >
             <Text style={styles.loginText}>Login</Text>
