@@ -38,7 +38,7 @@ class StoreProfile extends Component {
           selected_city: selected_city,
         })
       })
-    AsyncStorage.getItem('store_id').then(store_id => {
+    AsyncStorage.getItem('id').then(store_id => {
       // console.log(store_id, "idddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
       this.setState({
         store_id: store_id,
@@ -97,7 +97,7 @@ class StoreProfile extends Component {
 
     for (var i = 0; i < categories.length; i++) {
 
-      const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/5/products?cat_id=' + categories[i].id;
+      const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/'+this.state.store_id+'/products?cat_id=' + categories[i].id;
 
 
       let response = null;
