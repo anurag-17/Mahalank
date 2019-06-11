@@ -75,7 +75,52 @@ export default class SignUp extends Component {
   }
 
   __register = () => {
-
+ const {first_name,last_name,email,password,conf_password,postcode,state,address_1,address_2,city} = this.state;
+    reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    if(first_name==""){
+      //alert('please fill the first name');
+      this.setState({Error: 'please fill the First Name'});
+    }
+    else if(last_name==""){
+      this.setState({Error: 'please fill the Last Name'});
+    }
+    else if(email==""){
+      this.setState({Error: 'please fill the Email'});
+    }
+    if(reg.test(email) === false){
+      this.setState({Error: 'Email is Not Correct'});
+    }
+    else if(password==""){
+      this.setState({Error: 'please fill the Password'});
+    }
+    else if(password.length <4){
+      this.setState({Error: 'password  must be more than 4'});
+    }
+    else if(conf_password==""){
+      this.setState({Error: 'please fill the Password'});
+    }
+    else if(conf_password.length <4){
+      this.setState({Error: 'password  must be more than 4'});
+    }
+    else if(password !== conf_password){
+      this.setState({Error: 'Passwords dont match' });
+    }
+    else if(postcode==""){
+      this.setState({Error: 'please fill the Pin Code'});
+    }
+    else if(state==""){
+      this.setState({Error: 'please fill the state'});
+    }
+    else if(address_1==""){
+      this.setState({Error: 'please fill the Address'});
+    }
+    else if(address_2==""){
+      this.setState({Error: 'please fill the Town'});
+    }
+    else if(city==""){
+      this.setState({Error: 'please fill the city'});
+    }
+    else{
     fetch("https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96", {
       method: 'POST',
       headers: {
@@ -111,6 +156,7 @@ export default class SignUp extends Component {
       .catch((error) => {
         console.error(error);
       });
+  }
   }
 
   render() {
@@ -264,7 +310,9 @@ export default class SignUp extends Component {
                   placeholerTextSize="10" />
               </View>
             </View>
-
+           <Text style={{color:'red', textAlign:'center'}}>
+            {this.state.Error}
+           </Text>
 
           </View>
 
