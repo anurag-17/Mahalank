@@ -1,6 +1,23 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ScrollView, ToastAndroid } from "react-native";
-import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+  ScrollView,
+  ToastAndroid,
+  AsyncStorage
+} from "react-native";
+import {
+  Container,
+  Header,
+  Content,
+  SwipeRow,
+  Icon,
+  Button
+} from "native-base";
 import PropTypes from "prop-types";
 
 export default class AddToCart extends Component {
@@ -9,33 +26,87 @@ export default class AddToCart extends Component {
 
     this.state = {
       number: this.props.start,
+      // ID: "",
+      product_id: "",
+      quantity: "",
+      product_name: "",
+      price: "",
+      product_image: "",
+      user_id: "",
       dataSource: []
     };
 
     // bind functions..
     this.onPressMinus = this.onPressMinus.bind(this);
     this.onPressPlus = this.onPressPlus.bind(this);
+
+    //   AsyncStorage.getItem("ID").then(ID => {
+    //     console.log(ID, "Add to Cart user Id");
+    //     this.setState({
+    //       ID: ID
+    //     });
+    //   });
   }
 
+  // componentDidMount() {
+  //   return fetch(
+  //     "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96"
+  //   )
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       // console.log(responseJson);
+
+  //       this.setState({
+  //         dataSource: responseJson
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+
   componentDidMount() {
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "USer Profile USer ID");
 
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
-      .then((response) => response.json())
-      .then((responseJson) => {
+      const formData = new FormData();
+      console.log(formData, "View Detail");
+      const url =
+        // "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/add?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96";
+        "https://controlf5.in/client-demo/groznysystems/wp-json/api/view_cart";
 
-        console.log(responseJson)
-
-        this.setState({
-
-          dataSource: responseJson,
-
-
-        });
-
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: user_id
+        })
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson, "Add to Cart Data show here");
+
+          if (responseJson.status == "false") {
+            ToastAndroid.show("Cart is Empty!", ToastAndroid.SHORT);
+            // this.setState({
+            //   Error: "Cart is Empty!"
+            // });
+          } else {
+            this.setState({
+              dataSource: responseJson
+              
+            });
+            
+          }
+        })
+
+        .catch(error => {
+          this.setState({ error, loading: false });
+        });
+    });
   }
 
   onPressMinus() {
@@ -45,7 +116,6 @@ export default class AddToCart extends Component {
     if (number == this.props.min) {
       return;
     }
-
 
     return this.setState({ number: minusNumber }, () =>
       this.props.onChange(minusNumber, "-")
@@ -90,17 +160,17 @@ export default class AddToCart extends Component {
             touchableColor
           )
         ) : (
-            <Text
-              style={[
-                Styles.iconText,
-                {
-                  color: isMinusDisabled ? touchableDisabledColor : touchableColor
-                }
-              ]}
-            >
-              -
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isMinusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+            -
           </Text>
-          )}
+        )}
       </TouchableOpacity>
     );
   }
@@ -130,80 +200,89 @@ export default class AddToCart extends Component {
             touchableColor
           )
         ) : (
-            <Text
-              style={[
-                Styles.iconText,
-                {
-                  color: isPlusDisabled ? touchableDisabledColor : touchableColor
-                }
-              ]}
-            >
-              +
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isPlusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+            +
           </Text>
-          )}
+        )}
       </TouchableOpacity>
     );
   }
 
-  removeItem(key) {
+  removeItem() {
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "USer Profile USer ID");
 
-    // const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/add";
-       const url =" https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/cart-item";
+      const formData = new FormData();
+      console.log(formData, "View Detail");
+      // const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/add";
+      const url =
+        "https://controlf5.in/client-demo/groznysystems/wp-json/api/delete_cart";
 
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "cart_item_key": key,
-
-      })
-    })
-      .then((response) => response.json()).then((responseJson) => {
-
-        let data = this.state.dataSource
-        data = data.filter((item) => item.key !== key)
-        this.setState({
-          dataSource: data,
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          product_id: this.state.product_id,
+          user_id: user_id
         })
-
-        ToastAndroid.show('Your item is deleted!', ToastAndroid.SHORT);
-
       })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          let data = this.state.dataSource;
+          data = data.filter(item => item.key !== key);
+          this.setState({
+            dataSource: data
+          });
 
-
+          ToastAndroid.show("Your item is deleted!", ToastAndroid.SHORT);
+        })
+        .catch(error => {
+          this.setState({ error, loading: false });
+        });
+    });
   }
 
-  updateItem(key) {
-    const url = "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/cart/cart-item";
+  updateItem() {
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "USer Profile USer ID");
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "cart_item_key": key,
-        "quantity": this.state.quantity
+      const formData = new FormData();
+      console.log(formData, "View Detail");
 
+      const url =
+        "https://controlf5.in/client-demo/groznysystems/wp-json/api/update_cart";
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          product_id: this.state.product_id,
+          quantity: this.state.quantity,
+          user_id: user_id
+        })
       })
-    })
-      .then((response) => response.json()).then((responseJson) => {
-
-        ToastAndroid.show('Your item is Updated!', ToastAndroid.SHORT);
-
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          ToastAndroid.show("Your item is Updated!", ToastAndroid.SHORT);
+        })
+        .catch(error => {
+          this.setState({ error, loading: false });
+        });
+    });
   }
-
 
   render() {
     const { number } = this.state;
@@ -214,56 +293,74 @@ export default class AddToCart extends Component {
           <Content scrollEnabled={false}>
             <FlatList
               data={this.state.dataSource}
-              renderItem={({ item }) => <SwipeRow
-                leftOpenValue={75}
-                rightOpenValue={-75}
-                left={
-                  <Button success onPress={() => this.updateItem(item.key)} >
-                    <Icon active name="add" />
-                  </Button>
-                }
-                body={
+              renderItem={({ item }) => (
+                <SwipeRow
+                  leftOpenValue={75}
+                  rightOpenValue={-75}
+                  left={
+                    <Button success onPress={() => this.updateItem(item.product_id)}>
+                      <Icon active name="add" />
+                    </Button>
+                  }
+                  body={
+                    <View style={{ flex: 1, flexDirection: "row" }}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate("ViewDetailItem", {
+                            product_id: item.product_id,
+                            product_image: item.product_image
+                          })
+                        }
+                      >
+                        <Image
+                          style={Styles.image}
+                          source={{ uri: item.product_image }}
+                        />
+                      </TouchableOpacity>
 
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewDetailItem', {
-                      product_id: item.product_id,
-                      product_image: item.product_image,
-                    })}>
-
-                      <Image style={Styles.image} source={{ uri: item.product_image }} />
-
-                    </TouchableOpacity>
-
-                    <View style={Styles.boxContent}>
-                      <Text style={Styles.title}>{item.product_name}</Text>
-                      <View style={Styles.container}>
-
-                        <View><Text style={Styles.text} >Quantity : </Text></View>
-                        <View style={Styles.number}>
-                          <Text style={[Styles.text, { color: this.props.textColor }]}>{item.quantity}</Text>
+                      <View style={Styles.boxContent}>
+                        <Text style={Styles.title}>{item.product_name}</Text>
+                        <View style={Styles.container}>
+                          <View>
+                            <Text style={Styles.text}>Quantity : </Text>
+                          </View>
+                          <View style={Styles.number}>
+                            <Text
+                              style={[
+                                Styles.text,
+                                { color: this.props.textColor }
+                              ]}
+                            >
+                              {item.quantity}
+                            </Text>
+                          </View>
+                          <View>
+                            <Text style={Styles.text}>
+                              Price : {item.price}
+                            </Text>
+                          </View>
                         </View>
-                        <View><Text style={Styles.text}>Price : {item.line_total}</Text></View>
                       </View>
                     </View>
-                  </View>
-                }
-                right={
-                  <Button danger onPress={() => this.removeItem(item.key)}>
-                    <Icon active name="trash" />
-                  </Button>
-                }
-              />}
+                  }
+                  right={
+                    <Button danger onPress={() => this.removeItem(item.product_id)}>
+                      <Icon active name="trash" />
+                    </Button>
+                  }
+                />
+              )}
             />
-
           </Content>
 
           <View style={Styles.addToCarContainer}>
-            <TouchableOpacity style={Styles.shareButton} onPress={() => this.props.navigation.navigate('Checkout')}>
+            <TouchableOpacity
+              style={Styles.shareButton}
+              onPress={() => this.props.navigation.navigate("Checkout")}
+            >
               <Text style={Styles.shareButtonText}>Checkout Now</Text>
             </TouchableOpacity>
           </View>
-
         </View>
       </ScrollView>
     );
@@ -279,33 +376,32 @@ const Styles = StyleSheet.create({
     padding: 20,
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: 'white',
-    flexDirection: 'row',
+    backgroundColor: "white",
+    flexDirection: "row"
   },
 
   text: {
     fontSize: 14,
-    marginLeft: 10,
-
+    marginLeft: 10
   },
   image: {
     width: 90,
-    height: 80,
+    height: 80
   },
   boxContent: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginLeft: 10,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginLeft: 10
   },
   description: {
     marginTop: 10,
     fontSize: 15,
-    color: "#646464",
+    color: "#646464"
   },
   title: {
     fontSize: 18,
-    color: "#151515",
+    color: "#151515"
   },
 
   product_name: {
@@ -328,15 +424,15 @@ const Styles = StyleSheet.create({
   shareButton: {
     marginTop: 10,
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#421a8d",
-    marginBottom: 20,
+    marginBottom: 20
   },
   shareButtonText: {
     color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 20
   },
   addToCarContainer: {
     marginHorizontal: 10
@@ -376,15 +472,15 @@ AddToCart.defaultProps = {
   shareButton: {
     marginTop: 10,
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#421a8d",
-    marginBottom: 20,
+    marginBottom: 20
   },
   shareButtonText: {
     color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 20
   },
   addToCarContainer: {
     marginHorizontal: 10
