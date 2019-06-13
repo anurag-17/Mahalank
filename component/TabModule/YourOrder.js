@@ -1,31 +1,50 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, ScrollView, ToastAndroid, ActivityIndicator } from "react-native";
-import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
-import PropTypes from "prop-types";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+  ScrollView,
+  ToastAndroid,
+  ActivityIndicator,
+  AsyncStorage
+} from "react-native";
 
 export default class YourOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      user_id: "",
+      isLoading: true
     };
   }
   componentDidMount() {
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "USer Profile USer ID");
 
-    return fetch('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/orders?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
+      const formData = new FormData();
+      console.log(formData, "View Detail");
+      return fetch(
+        // "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/orders?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96"
+        "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v2/orders?customer=" +
+          user_id +
+          "&per_page=50&page=1&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96"
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          this.setState({
+            isLoading: false,
+            dataSource: responseJson
+          });
+        })
+        .catch(error => {
+          console.error(error);
         });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    });
   }
-
 
   render() {
     if (this.state.isLoading) {
@@ -36,119 +55,126 @@ export default class YourOrder extends Component {
       );
     }
     return (
-
-      <View style={styles.container}>
-
-        <View >
-          <ScrollView>
-            <View >
-              <FlatList
-                style={styles.contentList}
-                columnWrapperStyle={styles.listContainer}
-                data={this.state.dataSource}
-                keyExtractor={({ id }, index) => id.toString()}
-                renderItem={({ item }) => {
-                  return (
-
-                    <TouchableOpacity style={styles.storecard}
-                      onPress={() => this.props.navigation.navigate('ViewDetailItem', {
-                        product_id: item.id,
-                      })}>
-                      <Image style={styles.storeimage} source={{ uri: 'https://www.controlf5.in/website-template/Consulting/images/log.jpg' }} />
-                      <View style={styles.storecardContent}>
-                        <View>
-                          {item.line_items.map((item) => (
-                            <Text key={item.id} style={styles.name}>{item.name}</Text>
-                          )
-                          )
-                          }
+      <ScrollView style={{ backgroundColor: "#fff" }}>
+        <View style={styles.container}>
+          <View>
+            <View>
+              <ScrollView>
+                <FlatList
+                  style={styles.contentList}
+                  columnWrapperStyle={styles.listContainer}
+                  data={this.state.dataSource}
+                  keyExtractor={({ id }, index) => id.toString()}
+                  renderItem={({ item }) => {
+                    return (
+                      <TouchableOpacity
+                        style={styles.storecard}
+                        onPress={() =>
+                          this.props.navigation.navigate("ViewDetailItem", {
+                            product_id: item.id
+                          })
+                        }
+                      >
+                        <Image
+                          style={styles.storeimage}
+                          source={{
+                            uri:
+                              "https://www.controlf5.in/website-template/Consulting/images/log.jpg"
+                          }}
+                        />
+                        <View style={styles.storecardContent}>
+                          <View>
+                            {item.line_items.map(item => (
+                              <Text key={item.id} style={styles.name}>
+                                {item.name}
+                              </Text>
+                            ))}
+                          </View>
+                          <View>
+                            <Text key={item.id} style={styles.created_date}>
+                              Created at : {item.date_created}
+                            </Text>
+                          </View>
                         </View>
-                        <View>
-                          <Text key={item.id} style={styles.created_date}>Created at : {item.date_created}</Text>
-                        </View>
-
-                      </View>
-                    </TouchableOpacity>
-                  )
-                }} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </ScrollView>
             </View>
-          </ScrollView>
+          </View>
         </View>
-
-      </View>
-
+      </ScrollView>
     );
-
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 8,
-    marginBottom: 5,
+    marginBottom: 5
   },
   paragraph: {
     margin: 24,
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center"
   },
   button: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
+    alignItems: "center",
+    backgroundColor: "#ffffff",
     padding: 10,
-    margin: 2,
+    margin: 2
   },
   name: {
     fontSize: 14,
-    marginTop: 5,
+    marginTop: 5
   },
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
-    backgroundColor: '#FFFFFF',
+    borderBottomColor: "#F5FCFF",
+
     borderRadius: 7,
     borderBottomWidth: 1,
     height: 45,
     marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 20,
 
     shadowColor: "#808080",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 5,
+    elevation: 5
   },
   inputIcon: {
     width: 15,
     height: 15,
     marginRight: 15,
-    justifyContent: 'center',
-    position: 'absolute',
-    right: 5,
+    justifyContent: "center",
+    position: "absolute",
+    right: 5
   },
   inputIconMap: {
     width: 20,
     height: 20,
     marginLeft: 15,
-    justifyContent: 'center',
-    position: 'absolute',
-    left: 5,
+    justifyContent: "center",
+    position: "absolute",
+    left: 5
   },
   card: {
-    shadowColor: '#00000021',
+    shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 6
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
@@ -156,25 +182,23 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: "white",
     padding: 10,
-    flexDirection: 'row',
-
+    flexDirection: "row"
   },
   imageContainer: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
-    shadowOpacity: 0.32,
-
+    shadowOpacity: 0.32
   },
   contentList: {
-    flex: 1,
+    flex: 1
   },
   created_date: {
-    color: '#0000FF',
+    color: "#0000FF",
     fontSize: 12,
-    marginTop: 12,
+    marginTop: 12
   },
 
   storecardContent: {
@@ -190,10 +214,10 @@ const styles = StyleSheet.create({
   },
 
   storecard: {
-    shadowColor: '#00000021',
+    shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 6
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
@@ -203,8 +227,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "white",
     padding: 10,
-    flexDirection: 'row',
-    borderRadius: 6,
-  },
+    flexDirection: "row",
+    borderRadius: 6
+  }
 });
+
 
