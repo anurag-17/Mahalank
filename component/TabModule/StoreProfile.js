@@ -999,93 +999,145 @@ const styles2 = StyleSheet.create({
 //   }
 // }
 class CustomerProfile extends Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
+      // user_nicename1: '',
+      // user_email: '',
 
-      user_nicename1: '',
-      user_email: '',
+      user_id: "",
+      mob_no: "",
+      password: "",
+      username: "",
+      user_login: "",
+      id: "",
+      first_name: "",
+      email: "",
+      phone: "",
+      address_1: "",
+      postcode: "",
+      city: ""
+    };
 
-      mob_no: '',
-      password: '',
-      username: '',
-      user_login: '',
-      ID1: '51',
+    // AsyncStorage.getItem('user_nicename').then(asyncStorageRes => {
+    //   console.log(asyncStorageRes, "user name")
+    //   this.setState({
 
+    //     user_nicename1: asyncStorageRes
 
-      first_name: '',
-      email: '',
-      phone: '',
-      address_1: '',
-      postcode: '',
-      city: '',
-      ID: '',
+    //   });
 
-    }
+    // });
 
-    AsyncStorage.getItem('user_nicename').then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "user name")
-      this.setState({
+    // AsyncStorage.getItem('user_email').then(asyncStorageRes => {
+    //   console.log(asyncStorageRes, "Email")
+    //   this.setState({
 
-        user_nicename1: asyncStorageRes
+    //     user_email: asyncStorageRes
 
-      });
+    //   });
 
-    });
+    // });
 
-    AsyncStorage.getItem('user_email').then(asyncStorageRes => {
-      console.log(asyncStorageRes, "Email")
-      this.setState({
+    // AsyncStorage.getItem("ID").then(ID => {
+    //   console.log(ID, "USer Profile USer ID");
+    //   this.setState({
+    //     ID: ID
+    //   });
+    // });
 
-        user_email: asyncStorageRes
-
-      });
-
-    });
-
-    AsyncStorage.getItem('ID')
-      .then(ID => {
-        console.log(ID, "ID11111111111111111111111111111111111111111111111111111111111111111111111111")
-        this.setState({
-          ID: ID
-        });
-      });
-
+    // AsyncStorage.getItem('ID')
+    //   .then(ID => {
+    //     console.log(ID, "ID_PRofileeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    //     this.setState({
+    //       ID: ID
+    //     });
+    //   });
   }
+
+  // componentDidMount() {
+  //   const url =
+  //     "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/"+this.state.ID+"/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96";
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       console.log(responseJson, "Response");
+  //       console.log(
+  //         "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/"+this.state.ID+"/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96",
+  //         "user_profile"
+  //       );
+  //       this.setState({
+  //         first_name: responseJson.first_name,
+  //         email: responseJson.email,
+  //         // phone: responseJson[0].billing.phone,
+  //         // address_1: responseJson[0].billing.address_2,
+  //         // postcode: responseJson[0].billing.postcode,
+  //         // city: responseJson[0].billing.city,
+  //       });
+
+  //       AsyncStorage.setItem("first_name", this.state.first_name);
+  //       AsyncStorage.setItem("email", this.state.email);
+  //       AsyncStorage.setItem("phone", this.state.phone);
+  //       AsyncStorage.setItem("address_1", this.state.address_1);
+  //       AsyncStorage.setItem("postcode", this.state.postcode);
+  //       AsyncStorage.setItem("city", this.state.city);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
 
   componentDidMount() {
-    const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96';
-    return fetch(url)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson[0], "Response")
-        console.log('https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/' + this.state.ID + '/?consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96', "urllllllllllllllllllllllllllllllllllllllllllllllllll")
-        this.setState({
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "USer Profile USer ID");
 
-          first_name: responseJson[0].billing.first_name,
-          email: responseJson[0].billing.email,
-          phone: responseJson[0].billing.phone,
-          address_1: responseJson[0].billing.address_1,
-          postcode: responseJson[0].billing.postcode,
-          city: responseJson[0].billing.city,
+      const formData = new FormData();
+      console.log(formData, "form data");
+
+      fetch(
+        "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/userinfo",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user_id: user_id
+          })
+        }
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log("User Profile Data", responseJson);
+          this.setState({
+            id: responseJson.user.id,
+            first_name: responseJson.user.firstname,
+            email: responseJson.user.email,
+            // postcode: responseJson.billing.postcode
+            // phone: responseJson.billing.phone,
+            // address_1: responseJson.billing.address_1,
+            // postcode: responseJson.billing.postcode,
+
+            // phone: responseJson[0].billing.phone,
+            // address_1: responseJson[0].billing.address_2,
+            // postcode: responseJson[0].billing.postcode,
+            // city: responseJson[0].billing.city,
+          });
+          console.log("hello");
+          console.log(this.state.id, "id");
+          console.log(this.state.first_name, "firstname");
+          console.log(this.state.email, "email");
+          // console.log(this.state.postcode, "postcode");
+          // console.log(this.state.phone, "phone");
+          // console.log(this.state.address_1, "address_1");
+        })
+        .catch(error => {
+          this.setState({ error, loading: false });
         });
-
-        AsyncStorage.setItem('first_name', this.state.first_name);
-        AsyncStorage.setItem('email', this.state.email);
-        AsyncStorage.setItem('phone', this.state.phone); 
-        AsyncStorage.setItem('address_1', this.state.address_1);
-        AsyncStorage.setItem('postcode', this.state.postcode);
-        AsyncStorage.setItem('city', this.state.city);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    });
   }
-
 
   render() {
     return (
@@ -1093,8 +1145,12 @@ class CustomerProfile extends Component {
         <View style={styles5.container}>
           <View style={styles5.header}>
             <View style={styles5.headerContent}>
-              <Image style={styles5.avatar}
-                source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }} />
+              <Image
+                style={styles5.avatar}
+                source={{
+                  uri: "https://bootdey.com/img/Content/avatar/avatar6.png"
+                }}
+              />
 
               <Text style={styles5.name}>{this.state.user_nicename} </Text>
             </View>
@@ -1103,58 +1159,70 @@ class CustomerProfile extends Component {
 
           <View style={styles5.body}>
             <View style={styles5.inputContainer}>
-
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.first_name}
                 secureTextEntry={true}
                 editable={false}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
-
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
 
             <View style={styles5.inputContainer}>
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.email}
                 editable={false}
                 secureTextEntry={true}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
-
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
             <View style={styles5.inputContainer}>
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.phone}
                 editable={false}
                 secureTextEntry={true}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
             <View style={styles5.inputContainer}>
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.address_1}
                 editable={false}
                 secureTextEntry={true}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
             <View style={styles5.inputContainer}>
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.postcode}
                 editable={false}
                 secureTextEntry={true}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
             <View style={styles5.inputContainer}>
-              <TextInput style={styles5.inputs}
+              <TextInput
+                style={styles5.inputs}
                 placeholder={this.state.city}
                 editable={false}
                 secureTextEntry={true}
-                underlineColorAndroid='#778899'
-                onChangeText={(password) => this.setState({ password })} />
+                underlineColorAndroid="#778899"
+                onChangeText={password => this.setState({ password })}
+              />
             </View>
-            <TouchableOpacity style={[styles5.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('ChangePassword')}>
+            <TouchableOpacity
+              style={[styles5.buttonContainer, styles.loginButton]}
+              onPress={() => this.props.navigation.navigate("ChangePassword")}
+            >
               <Text style={styles5.loginText}>Change Password</Text>
             </TouchableOpacity>
           </View>
