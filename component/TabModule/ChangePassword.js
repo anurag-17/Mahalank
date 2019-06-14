@@ -43,7 +43,7 @@ class ChangePassword extends Component {
 
 const styles = StyleSheet.create({
   header:{
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "#fff",
   },
   headerContent:{
     padding:30,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontWeight:'600',
   },
   body:{
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "#fff",
     height:500,
     alignItems:'center',
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop:20,
-        width:400,
+        width:300,
 
         backgroundColor:'transparent'
       },
