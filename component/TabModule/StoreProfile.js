@@ -1016,7 +1016,7 @@ class CustomerProfile extends Component {
       email: "",
       phone: "",
       address_1: "",
-      postcode: "",
+      post_code: "",
       city: ""
     };
 
@@ -1115,12 +1115,12 @@ class CustomerProfile extends Component {
             id: responseJson.user.id,
             first_name: responseJson.user.firstname,
             email: responseJson.user.email,
-            // postcode: responseJson.billing.postcode
+            // post_code: responseJson.billing.postcode
             // phone: responseJson.billing.phone,
             // address_1: responseJson.billing.address_1,
             // postcode: responseJson.billing.postcode,
 
-            // phone: responseJson[0].billing.phone,
+            // phone: responseJson[1].billing.phone,
             // address_1: responseJson[0].billing.address_2,
             // postcode: responseJson[0].billing.postcode,
             // city: responseJson[0].billing.city,
@@ -1129,7 +1129,7 @@ class CustomerProfile extends Component {
           console.log(this.state.id, "id");
           console.log(this.state.first_name, "firstname");
           console.log(this.state.email, "email");
-          // console.log(this.state.postcode, "postcode");
+          // console.log(this.state.post_code, "postcode");
           // console.log(this.state.phone, "phone");
           // console.log(this.state.address_1, "address_1");
         })
@@ -1141,7 +1141,7 @@ class CustomerProfile extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: "#fff" }}>
         <View style={styles5.container}>
           <View style={styles5.header}>
             <View style={styles5.headerContent}>
@@ -1162,6 +1162,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.first_name}
+                placeholderTextColor="#000" 
                 secureTextEntry={true}
                 editable={false}
                 underlineColorAndroid="#778899"
@@ -1173,6 +1174,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.email}
+                placeholderTextColor="#000" 
                 editable={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#778899"
@@ -1183,6 +1185,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.phone}
+                placeholderTextColor="#000" 
                 editable={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#778899"
@@ -1193,6 +1196,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.address_1}
+                placeholderTextColor="#000" 
                 editable={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#778899"
@@ -1203,6 +1207,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.postcode}
+                placeholderTextColor="#000" 
                 editable={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#778899"
@@ -1213,6 +1218,7 @@ class CustomerProfile extends Component {
               <TextInput
                 style={styles5.inputs}
                 placeholder={this.state.city}
+                placeholderTextColor="#000" 
                 editable={false}
                 secureTextEntry={true}
                 underlineColorAndroid="#778899"
@@ -1232,23 +1238,21 @@ class CustomerProfile extends Component {
   }
 }
 
-
 const styles5 = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#DCDCDC',
-    padding: 20
-
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 10
   },
   header: {
-    backgroundColor: "#DCDCDC",
-    marginTop: 10,
+    backgroundColor: "#fff",
+    marginTop: 10
   },
   headerContent: {
-    alignItems: 'center',
-    marginTop: 10,
+    alignItems: "center",
+    marginTop: 10
   },
   avatar: {
     width: 100,
@@ -1256,105 +1260,104 @@ const styles5 = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
-    marginBottom: 10,
+    marginBottom: 10
   },
   name: {
     fontSize: 20,
     color: "#000000",
-    fontWeight: '600',
+    fontWeight: "600"
   },
   name1: {
     fontSize: 17,
     color: "#000000",
-    fontWeight: '300',
+    fontWeight: "300"
   },
   userInfo: {
     fontSize: 16,
     color: "#778899",
-    fontWeight: '600',
+    fontWeight: "600"
   },
   body: {
-    backgroundColor: "#DCDCDC",
-    height: 400,
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
     padding: 10
-
   },
   item: {
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   infoContent: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     paddingLeft: 5
   },
   iconContent: {
     flex: 1,
-    alignItems: 'flex-end',
-    paddingRight: 5,
+    alignItems: "flex-end",
+    paddingRight: 5
   },
   icon: {
     width: 30,
     height: 30,
-    marginTop: 20,
+    marginTop: 20
   },
   info: {
     fontSize: 18,
     marginTop: 20,
-    color: "#FFFFFF",
+    color: "#FFFFFF"
   },
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
-    backgroundColor: '#FFFFFF',
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
     borderBottomWidth: 1,
-    width: 400,
+    width: "100%",
+    padding: 10,
     height: 45,
     marginTop: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     shadowColor: "#808080",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 1.15,
 
-    elevation: 1,
+    elevation: 1
   },
   inputs: {
     height: 45,
     marginLeft: 20,
-    borderBottomColor: '#FFFFFF',
-    flex: 1,
+    borderBottomColor: "#FFFFFF",
+    flex: 1
   },
   buttonContainer: {
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 200,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
-    width: 400,
-
-    backgroundColor: 'transparent'
   },
   loginButton: {
     backgroundColor: "#421a8d",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 9
+    // },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 0.5,
 
-    shadowColor: "#421a8d",
-    shadowOffset: {
-      width: 0,
-      height: 9,
-    },
-    shadowOpacity: 0.50,
-    shadowRadius: 12.35,
-
-    elevation: 3,
+    // elevation: 1
   },
   loginText: {
-    color: 'white',
-  },
+    color: "white",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
-
 // const { navigation } = this.props;
 // const storeId = navigation.getParam('store_id', '0');
 const RootStack = createBottomTabNavigator(
