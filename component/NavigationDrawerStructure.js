@@ -105,7 +105,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#421a8d',
       },
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
     }),
   },
 });
@@ -122,7 +122,7 @@ const Screen2_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#421a8d',
       },
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
     }),
   },
 });
@@ -138,7 +138,7 @@ const Screen3_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#421a8d',
       },
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
     }),
   },
 });
@@ -153,7 +153,7 @@ const Screen4_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#421a8d',
       },
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
     }),
   },
 });
@@ -168,7 +168,7 @@ const Screen5_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#421a8d',
       },
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
     }),
   },
 });
