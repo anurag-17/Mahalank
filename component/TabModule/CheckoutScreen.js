@@ -648,53 +648,53 @@ export default class CheckoutScreen extends Component {
       user_id: ""
     };
 
-    AsyncStorage.getItem("ID").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "ID")
-      this.setState({
-        ID1: asyncStorageRes
-      });
-    });
-    AsyncStorage.getItem("first_name").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "user name")
-      this.setState({
-        first_name: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("ID").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "ID")
+    //   this.setState({
+    //     ID1: asyncStorageRes
+    //   });
+    // });
+    // AsyncStorage.getItem("first_name").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "user name")
+    //   this.setState({
+    //     first_name: asyncStorageRes
+    //   });
+    // });
 
-    AsyncStorage.getItem("email").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "Email")
-      this.setState({
-        email: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("email").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "Email")
+    //   this.setState({
+    //     email: asyncStorageRes
+    //   });
+    // });
 
-    AsyncStorage.getItem("phone").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "ID")
-      this.setState({
-        phone: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("phone").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "ID")
+    //   this.setState({
+    //     phone: asyncStorageRes
+    //   });
+    // });
 
-    AsyncStorage.getItem("address_1").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "address_1")
-      this.setState({
-        address_1: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("address_1").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "address_1")
+    //   this.setState({
+    //     address_1: asyncStorageRes
+    //   });
+    // });
 
-    AsyncStorage.getItem("city").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "city")
-      this.setState({
-        city: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("city").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "city")
+    //   this.setState({
+    //     city: asyncStorageRes
+    //   });
+    // });
 
-    AsyncStorage.getItem("postcode").then(asyncStorageRes => {
-      // console.log(asyncStorageRes, "postcode")
-      this.setState({
-        postcode: asyncStorageRes
-      });
-    });
+    // AsyncStorage.getItem("postcode").then(asyncStorageRes => {
+    //   // console.log(asyncStorageRes, "postcode")
+    //   this.setState({
+    //     postcode: asyncStorageRes
+    //   });
+    // });
   }
 
   // componentDidMount() {
@@ -728,6 +728,7 @@ export default class CheckoutScreen extends Component {
   //       console.error(error);
   //     });
   // }
+
   componentDidMount() {
     AsyncStorage.getItem("ID").then(user_id => {
       // console.log(user_id, "check out USer ID");
@@ -907,28 +908,130 @@ export default class CheckoutScreen extends Component {
     );
   }
 
-  __address() {
-    return fetch(
-      "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/" +
-        this.state.ID1 +
-        "?per_page=100&page=1&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96"
-    )
-      .then(response => response.json())
-      .then(responseJson => {
-        // console.log(responseJson[0].billing, "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
+  // __address() {
+  //   return fetch(
+  //     "https://controlf5.in/client-demo/groznysystems/wp-json/wc/v3/customers/" +
+  //       this.state.ID1 +
+  //       "?per_page=100&page=1&consumer_key=ck_a1cfd8083dabcebeba07f7597c9958b7f2354295&consumer_secret=cs_cb6cd3ea6f225ce04c254f9525ae12fa88399d96"
+  //   )
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       // console.log(responseJson[0].billing, "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
 
-        this.setState({
-          first_name: responseJson[0].billing.first_name,
-          email: responseJson[0].billing.email,
-          phone: responseJson[0].billing.phone,
-          address_1: responseJson[0].billing.address_1,
-          postcode: responseJson[0].billing.postcode,
-          city: responseJson[0].billing.city
+  //       this.setState({
+  //         first_name: responseJson[0].billing.first_name,
+  //         email: responseJson[0].billing.email,
+  //         phone: responseJson[0].billing.phone,
+  //         address_1: responseJson[0].billing.address_1,
+  //         postcode: responseJson[0].billing.postcode,
+  //         city: responseJson[0].billing.city
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+
+  __aadress() {
+    AsyncStorage.getItem("ID").then(user_id => {
+      console.log(user_id, "CheckOut User ID");
+
+      const formData = new FormData();
+      console.log(formData, "form data");
+
+      fetch(
+        "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/userinfo",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user_id: user_id
+          })
+        }
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log("Check Out Screen", responseJson);
+          this.setState({
+            id: responseJson.user.id,
+            first_name: responseJson.user.firstname,
+            email: responseJson.user.email,
+            phone: responseJson.user.billing.phone,
+            address_1: responseJson.user.billing.address_2,
+            post_code: responseJson.user.billing.postcode,
+            city: responseJson.user.billing.city
+          });
+          console.log("hello");
+          console.log(this.state.id, "id");
+          console.log(this.state.first_name, "firstname");
+          console.log(this.state.email, "email");
+          console.log(this.state.post_code, "postcode");
+          console.log(this.state.phone, "phone");
+          console.log(this.state.address_1, "address_1");
+        })
+        .catch(error => {
+          this.setState({ error, loading: false });
         });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    });
+
+    return (
+      <View>
+        <View style={styles.rowadd}>
+          <View style={styles.inputWrapadd}>
+            <View style={styles.inputContainer2add}>
+              <TextInput
+                style={styles.inputs2add}
+                onChangeText={f_name => this.setState({ first_name: f_name })}
+                placeholder={this.state.post_code}
+              />
+            </View>
+          </View>
+
+          <View style={styles.inputWrapadd}>
+            <View style={styles.inputContainer2add}>
+              <TextInput
+                style={styles.inputs2add}
+                onChangeText={l_name => this.setState({ last_name: l_name })}
+                placeholder={this.state.address_1}
+              />
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.row3add}>
+          <View style={styles.inputContainer3add}>
+            <TextInput
+              style={styles.inputs3add}
+              onChangeText={e_mail => this.setState({ email: e_mail })}
+              placeholder={this.state.address_1}
+            />
+          </View>
+        </View>
+
+        <View style={styles.row3add}>
+          <View style={styles.inputContainer3add}>
+            <TextInput
+              style={styles.inputs3add}
+              onChangeText={pswd => this.setState({ password: pswd })}
+              placeholder={this.state.city}
+            />
+          </View>
+        </View>
+
+        <View style={styles.row3add}>
+          <View style={styles.inputContainer3add}>
+            <TextInput
+              style={styles.inputs3add}
+              onChangeText={pswd => this.setState({ password: pswd })}
+              placeholder={this.state.city}
+            />
+          </View>
+        </View>
+      </View>
+    );
   }
 
   render() {
@@ -1051,7 +1154,7 @@ export default class CheckoutScreen extends Component {
                   marginRight: 10
                 }}
               >
-                <Text>{this.state.total}</Text>
+                <Text>{this.state.subtotal}</Text>
               </View>
             </View>
           </View>
@@ -1084,62 +1187,7 @@ export default class CheckoutScreen extends Component {
             </View>
           </View>
 
-          <View style={styles.containeradd}>
-            <View style={styles.rowadd}>
-              <View style={styles.inputWrapadd}>
-                <View style={styles.inputContainer2add}>
-                  <TextInput
-                    style={styles.inputs2add}
-                    onChangeText={f_name =>
-                      this.setState({ first_name: f_name })
-                    }
-                    placeholder={this.state.postcode}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.inputWrapadd}>
-                <View style={styles.inputContainer2add}>
-                  <TextInput
-                    style={styles.inputs2add}
-                    onChangeText={l_name =>
-                      this.setState({ last_name: l_name })
-                    }
-                    placeholder={this.state.address_1}
-                  />
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.row3add}>
-              <View style={styles.inputContainer3add}>
-                <TextInput
-                  style={styles.inputs3add}
-                  onChangeText={e_mail => this.setState({ email: e_mail })}
-                  placeholder={this.state.address_1}
-                />
-              </View>
-            </View>
-
-            <View style={styles.row3add}>
-              <View style={styles.inputContainer3add}>
-                <TextInput
-                  style={styles.inputs3add}
-                  onChangeText={pswd => this.setState({ password: pswd })}
-                  placeholder={this.state.city}
-                />
-              </View>
-            </View>
-            <View style={styles.row3add}>
-              <View style={styles.inputContainer3add}>
-                <TextInput
-                  style={styles.inputs3add}
-                  onChangeText={pswd => this.setState({ password: pswd })}
-                  placeholder={this.state.city}
-                />
-              </View>
-            </View>
-          </View>
+          <View style={styles.containeradd}>{this.__aadress()}</View>
 
           <View style={styles.addToCarContainer}>
             <TouchableOpacity
@@ -1243,7 +1291,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    marginTop: 10
+    marginTop: 10,
+    padding:10
   },
   rowadd: {
     flex: 1,
@@ -1338,7 +1387,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 2,
     marginLeft: 5,
-    width: "95%",
+    width: "50%",
     height: 45,
     flexDirection: "row",
 
@@ -1450,3 +1499,4 @@ const styles = StyleSheet.create({
     marginRight: 20
   }
 });
+
