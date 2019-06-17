@@ -1115,6 +1115,10 @@ class CustomerProfile extends Component {
             id: responseJson.user.id,
             first_name: responseJson.user.firstname,
             email: responseJson.user.email,
+            phone: responseJson.user.billing.phone,
+            address_1: responseJson.user.billing.address_2,
+            post_code: responseJson.user.billing.postcode,
+            city: responseJson.user.billing.city
             // post_code: responseJson.billing.postcode
             // phone: responseJson.billing.phone,
             // address_1: responseJson.billing.address_1,
