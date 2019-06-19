@@ -1,87 +1,95 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { StyleSheet, Text, Alert, View, AsyncStorage, Image, ListView, ImageBackground, ActivityIndicator, TouchableHighlight, TouchableOpacity, ScrollView, FlatList, TextInput, Button } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
-
+import {
+  StyleSheet,
+  Text,
+  Alert,
+  View,
+  AsyncStorage,
+  Image,
+  ListView,
+  ImageBackground,
+  ActivityIndicator,
+  TouchableHighlight,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  TextInput,
+  Button
+} from "react-native";
+import { withNavigation } from "react-navigation";
+import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class StoreProfile extends Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
-      storeid: '',
-      store_id: '',
       isLoading: true,
       categorydata: [],
-      product_id: '',
+      product_id: "",
       dataSource: {},
       selected_city,
-      store_name: '',
-      banner: '',
-      ID: '',
-      hasCategories: false,
+      id:"",
+      // store_id: "43",
+      store_name: "",
+      banner: "",
+      hasCategories: false
     };
 
-    this.makeCategoryRequest()
-
+    this.makeCategoryRequest();
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem("id").then(id => {
+      console.log("Stroe Profile id", id);
+      this.setState({ id: id });
+    });
 
-  componentWillMount() {
-    AsyncStorage.getItem('selected_city')
-      .then(selected_city => {
-        this.setState({
-          selected_city: selected_city,
-        })
-      })
-    AsyncStorage.getItem('id').then(store_id => {
-      // console.log(store_id, "idddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
-      this.setState({
-        store_id: store_id,
-      })
-    })
-    AsyncStorage.getItem('store_name')
-      .then(store_name => {
-        this.setState({
-          store_name: store_name,
-        })
-      })
-    AsyncStorage.getItem('banner').then(banner => {
-      // console.log(banner, "Baneeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-      this.setState({
-        banner: banner,
-      })
-    })
+    AsyncStorage.getItem("store_name").then(store_name => {
+      console.log("Stroe Profile name", store_name);
+      this.setState({ store_name: store_name });
+    });
+
+    AsyncStorage.getItem("banner").then(banner => {
+      console.log("Stroe Profile banner", banner);
+      this.setState({ banner: banner });
+    });
+
+    AsyncStorage.getItem("selected_city").then(selected_city => {
+      console.log("Stroe Profile City", selected_city);
+      this.setState({ selected_city: selected_city });
+    });
+
     //   const { navigation } = this.props;
     //   const itemId = navigation.getParam('store_name' );
     //  Alert.alert(+itemId)
-
   }
 
   makeCategoryRequest = () => {
-
-    const url = "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/category";
+    const url =
+      "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/category";
 
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        "storeid": this.state.store_id
+        storeid: this.state.id
       })
     })
-      .then((response) => response.json()).then((responseJson) => {
-
+      .then(response => response.json())
+      .then(responseJson => {
+        // console.log(
+        //   responseJson,
+        //   "Response000000000000000000000000000000000000"
+        // );
         this.setState({
-
           isLoading: false,
-          categorydata: responseJson.data,
+          categorydata: responseJson.data
         });
 
         this._fetchProducts(responseJson.data);
@@ -89,51 +97,52 @@ class StoreProfile extends Component {
       .catch(error => {
         this.setState({ error, loading: false });
       });
-
-  }
+  };
 
   async _fetchProducts(categories) {
-
-
     for (var i = 0; i < categories.length; i++) {
-
-      const url = 'https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/'+this.state.store_id+'/products?cat_id=' + categories[i].id;
-
+      const url =
+        "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/" + this.state.id +"/products?cat_id=" + categories[i].id;
 
       let response = null;
       let responseJson = null;
 
-
       try {
         response = await fetch(url);
         responseJson = await response.json();
+        
+        // console.log(
+        //   responseJson,
+        //   "Response11111111111111111111111111111111111111111"
+        // );
+        console.log(
+          "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/" + this.state.id +"/products?cat_id=" +categories[i].id,
+          "URlllllllllllllllllllllllllll"
+        );
+        // console.log("category data",responseJson)
       } catch (error) {
         console.log(error);
         this.setState({ error, loading: false });
         return;
       }
 
-
       let newData = this.state.dataSource;
 
       newData["c" + categories[i].id] = responseJson;
       this.setState({
         isLoading: false,
-        dataSource: newData,
+        dataSource: newData
       });
 
       if (i == categories.length - 1) {
-
         this.setState({
           hasCategories: true
-        })
+        });
       }
     }
-
   }
 
   __renderCategories = () => {
-
     return (
       <ScrollView>
         <View style={styles1.container}>
@@ -141,42 +150,28 @@ class StoreProfile extends Component {
             contentContainerStyle={styles1.listContainer}
             data={this.state.categorydata}
             horizontal={false}
-
             keyExtractor={({ id }, index) => id.toString()}
-
             renderItem={({ item }) => {
-
               let i = 0;
               return (
-
                 <View style={styles1.categorycard} key={i++}>
                   <View style={styles1.cardContent}>
-
                     <Text style={styles1.categoryname}> {item.name} </Text>
 
-                    <View>
-
-                      {this.__renderProducts(item.id, item.name)}
-
-                    </View>
-
+                    <View>{this.__renderProducts(item.id, item.name)}</View>
                   </View>
                 </View>
-
-              )
-            }
-            }
+              );
+            }}
           />
         </View>
       </ScrollView>
-    )
-  }
-
+    );
+  };
 
   __renderProducts = (cat_id, cat_name) => {
-
     let listData = this.state.dataSource["c" + cat_id];
-
+    console.log("listData",listData)
     return (
       <ScrollView>
         <View style={styles1.container}>
@@ -184,145 +179,183 @@ class StoreProfile extends Component {
             contentContainerStyle={styles1.listContainer}
             data={listData}
             horizontal={true}
-
             keyExtractor={({ id }, index) => id.toString()}
-
             renderItem={({ item }) => {
-
               let i = 1;
 
-              let productImage = { uri: 'https://controlf5.in/client-demo/groznysystems/wp-content/uploads/2013/06/T_3_front.jpg' };
+              let productImage = {
+                uri:
+                  "https://controlf5.in/client-demo/groznysystems/wp-content/uploads/2013/06/T_3_front.jpg"
+              };
               let _productImage = item.meta_data;
-              let _sendProduct = 'https://controlf5.in/client-demo/groznysystems/wp-content/uploads/2013/06/T_3_front.jpg';
+              let _sendProduct =
+                "https://controlf5.in/client-demo/groznysystems/wp-content/uploads/2013/06/T_3_front.jpg";
               for (var j = 0; j < _productImage.length; j++) {
                 if (_productImage[j].key == "product_thumbnail") {
-                  productImage = { uri: _productImage[j].value }
+                  productImage = { uri: _productImage[j].value };
                   _sendProduct = _productImage[j].value;
                   break;
                 }
               }
 
               return (
-
                 <View style={styles1.card} key={i++}>
-
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewDetailItem', {
-                    product_id: item.id,
-                    product_image: _sendProduct,
-                  })}>
-
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("ViewDetailItem", {
+                        product_id: item.id,
+                        product_image: _sendProduct
+                      })
+                    }
+                  >
                     <View>
-                      <Image key={item.id} style={styles1.cardImage} source={productImage} />
+                      <Image
+                        key={item.id}
+                        style={styles1.cardImage}
+                        source={productImage}
+                      />
                       <Text style={styles1.name}>{item.name}</Text>
-                      <Text style={styles1.count}>Price :  {item.price}</Text>
+                      <Text style={styles1.count}>Price : {item.price}</Text>
                     </View>
-
                   </TouchableOpacity>
                 </View>
-
-              )
-            }
-            }
+              );
+            }}
           />
         </View>
       </ScrollView>
-
-    )
-  }
-
+    );
+  };
 
   renderAsync() {
     return (
-
-      <ScrollView >
+      <ScrollView>
         <View style={styles1.headerContent}>
-
           <View style={styles1.storeheaderContent}>
             <View style={styles1.storeheader}>
               <ImageBackground
-                source={require('./Banner_2.jpg')}
+                source={require("./Banner_2.jpg")}
                 style={{
                   height: 230,
                   width: 450,
-                  position: 'relative',
-                }}>
-                <View style={{ height: 40, padding: 10, alignItems: 'center' }}>
-
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  position: "relative"
+                }}
+              >
+                <View style={{ height: 40, padding: 10, alignItems: "center" }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
                     <Text style={styles1.storename}>
-                      {this.state.selected_city}</Text>
+                      {this.state.selected_city}
+                    </Text>
                   </View>
-
                 </View>
                 {/* <View style={{ flex: 1, flexDirection: 'row',padding:8,alignItems:'center'}}> */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 8 }}>
-                  <Text style={{ fontSize: 14, color: "#FFFFFF", textAlign: 'center', alignItems: 'center' }}>
-                    {this.state.store_name}</Text>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectCity')}>
-                    <Image style={{ width: 12, height: 12, alignItems: 'center', marginTop: 5, marginLeft: 10 }} source={{ uri: 'https://www.controlf5.in/website-template/mobile/icon/arrow-n.png' }} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 8
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    {this.state.store_name}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate("SelectCity")}
+                  >
+                    <Image
+                      style={{
+                        width: 12,
+                        height: 12,
+                        alignItems: "center",
+                        marginTop: 5,
+                        marginLeft: 10
+                      }}
+                      source={{
+                        uri:
+                          "https://www.controlf5.in/website-template/mobile/icon/arrow-n.png"
+                      }}
+                    />
                   </TouchableOpacity>
                 </View>
                 {/* </View> */}
-                <View style={{ alignItems: 'center' }}>
-                  <Image style={styles1.avatar}
-                    source={{ uri: this.state.banner }} />
+                <View style={{ alignItems: "center" }}>
+                  <Image
+                    style={styles1.avatar}
+                    source={{ uri: this.state.banner }}
+                  />
                 </View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchTab')}>
-                  <View style={{ alignItems: 'center' }}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate("SearchTab")}
+                >
+                  <View style={{ alignItems: "center" }}>
                     <View style={styles1.inputContainer1}>
                       <TextInput
                         style={styles.inputs}
                         editable={false}
-                        underlineColorAndroid='transparent'
+                        underlineColorAndroid="transparent"
                         placeholder={this.state.store_name}
-                        placeholderTextColor="#421a8d" />
+                        placeholderTextColor="#421a8d"
+                      />
 
-                      <Image source={{ uri: 'https://www.controlf5.in/website-template/Consulting/images/search.png' }} style={styles.inputIconMap} />
+                      <Image
+                        source={{
+                          uri:
+                            "https://www.controlf5.in/website-template/Consulting/images/search.png"
+                        }}
+                        style={styles.inputIconMap}
+                      />
                     </View>
                   </View>
                 </TouchableOpacity>
               </ImageBackground>
-
             </View>
             <View>
-              <Image style={{ height: 100, width: 450, position: 'relative', marginTop: 10 }} source={require('./Banner2.jpg')} />
+              <Image
+                style={{
+                  height: 100,
+                  width: 450,
+                  position: "relative",
+                  marginTop: 10
+                }}
+                source={require("./Banner2.jpg")}
+              />
             </View>
-
           </View>
 
-          <View>
-
-            {this.__renderCategories()}
-
-          </View>
-
+          <View>{this.__renderCategories()}</View>
         </View>
-
-      </ScrollView >
-
-
+      </ScrollView>
     );
   }
 
   render() {
     const { navigation } = this.props;
-    const itemId = navigation.getParam('store_id');
+    const itemId = navigation.getParam("store_id");
 
     return (
-
       <View>
         {this.state.hasCategories && this.renderAsync()}
-        {!this.setState.hasCategories &&
-
+        {!this.setState.hasCategories && (
           <Text style={styles1.loadingbar}>Loading...</Text>
-
-        }
+        )}
       </View>
-
     );
   }
 }
-
 const styles1 = StyleSheet.create({
 
   categoryname: {
