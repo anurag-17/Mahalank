@@ -324,7 +324,8 @@ export default class StoreDetailTab extends React.Component {
       city_area: "",
       selected_city: "",
       city_zipcode: "",
-      cat_id: ""
+      cat_id: "",
+      cat_name: ""
     };
 
     selected_city = this.props.navigation.state.params.Selected_city;
@@ -349,18 +350,49 @@ export default class StoreDetailTab extends React.Component {
         console.error(error);
       });
   }
-  getdata = value => {
+
+  // componentDidMount() {
+  //   const url =
+  //     // "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/catestore?cat_id=" +
+  //     // this.state.cat_id;
+  //     "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/area/store/";
+
+  //   fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       zipcode: city_zipcode
+  //     })
+  //   })
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       console.log("Data", responseJson);
+  //       this.setState({
+  //         // cat_id: responseJson[0].id,
+  //         cat_id: responseJson[0].store_catagory[0].catagory_id,
+  //         cat_name: responseJson[0].store_catagory[0].catagory_name,
+  //         dataSource: responseJson
+  //       });
+  //       console.log("cat_id", responseJson[0].store_catagory[0].catagory_id);
+  //       console.log("cat_name",responseJson[0].store_catagory[0].catagory_name);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+  getdata = value => { 
     AsyncStorage.setItem("id", value.id);
-    console.log(
-      value.id,
-      "id111111111111111111111111111111111111111111111111111111111111111111111111111111111"
-    );
+    console.log("store detail id", value.id);
+
     AsyncStorage.setItem("store_name", value.store_name);
+    console.log("store detail name", value.store_name);
+
     AsyncStorage.setItem("banner", value.banner);
-    console.log(
-      value.banner,
-      "bannerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-    );
+    console.log("store detail banner", value.banner);
+
     this.props.navigation.navigate("App");
   };
 
@@ -382,6 +414,7 @@ export default class StoreDetailTab extends React.Component {
     })
       .then(res => res.json())
       .then(responseJson => {
+        // console.log("Store Detail", responseJson);
         this.setState({
           storedata: responseJson
         });
@@ -402,16 +435,15 @@ export default class StoreDetailTab extends React.Component {
               return (
                 <TouchableOpacity
                   style={styles.storecard}
-                  onPress={() => this.getdata(item)}
-                >
+                  onPress={() => this.getdata(item)} >
                   <Image
                     style={styles.storeimage}
-                    source={{ uri: item.banner }}
-                  />
+                    source={{ uri: item.banner }}/>
 
                   <View style={styles.storecardContent}>
                     <View>
                       <Text style={styles.name}>{item.store_name}</Text>
+                      {/* <Text style={styles.name}>{item.id}</Text> */}
                       {/* <Text style={styles.followButtonText}>
                         Same as store prizes{" "}
                       </Text> */}
