@@ -87,7 +87,7 @@ export default class AddToCart extends Component {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson, "Add to Cart Data show here");
+          console.log("Add to Cart Data show here", responseJson);
 
           if (responseJson.status == "false") {
             ToastAndroid.show("Cart is Empty!", ToastAndroid.SHORT);
@@ -96,10 +96,10 @@ export default class AddToCart extends Component {
             // });
           } else {
             this.setState({
+              product_id: responseJson[0].product_id,
               dataSource: responseJson
-              
             });
-            
+            console.log("product_id", product_id);
           }
         })
 
@@ -215,7 +215,8 @@ export default class AddToCart extends Component {
     );
   }
 
-  removeItem() {
+  removeItem(key) {
+    let newData = this.state.dataSource;
     AsyncStorage.getItem("ID").then(user_id => {
       console.log(user_id, "USer Profile USer ID");
 
@@ -238,13 +239,15 @@ export default class AddToCart extends Component {
       })
         .then(response => response.json())
         .then(responseJson => {
+          console.log(responseJson, "delete item response");
           let data = this.state.dataSource;
+          // data = data.filter(item => item.product_id !== product_id);
           data = data.filter(item => item.key !== key);
           this.setState({
             dataSource: data
           });
-
           ToastAndroid.show("Your item is deleted!", ToastAndroid.SHORT);
+
         })
         .catch(error => {
           this.setState({ error, loading: false });
@@ -252,7 +255,7 @@ export default class AddToCart extends Component {
     });
   }
 
-  updateItem() {
+  updateItem(key) {
     AsyncStorage.getItem("ID").then(user_id => {
       console.log(user_id, "USer Profile USer ID");
 
@@ -298,7 +301,10 @@ export default class AddToCart extends Component {
                   leftOpenValue={75}
                   rightOpenValue={-75}
                   left={
-                    <Button success onPress={() => this.updateItem(item.product_id)}>
+                    <Button
+                      success
+                      onPress={() => this.updateItem(item.product_id)}
+                    >
                       <Icon active name="add" />
                     </Button>
                   }
@@ -320,6 +326,7 @@ export default class AddToCart extends Component {
 
                       <View style={Styles.boxContent}>
                         <Text style={Styles.title}>{item.product_name}</Text>
+                        {/* <Text style={Styles.title}>{item.product_id}</Text> */}
                         <View style={Styles.container}>
                           <View>
                             <Text style={Styles.text}>Quantity : </Text>
@@ -336,7 +343,7 @@ export default class AddToCart extends Component {
                           </View>
                           <View>
                             <Text style={Styles.text}>
-                              Price : {item.price}
+                              Price : {item.total}
                             </Text>
                           </View>
                         </View>
@@ -344,9 +351,12 @@ export default class AddToCart extends Component {
                     </View>
                   }
                   right={
-                    <Button danger onPress={() => this.removeItem(item.product_id)}>
+                    <Button danger onPress={() => this.removeItem(item.key)}>
                       <Icon active name="trash" />
                     </Button>
+                    //   <Button danger onPress={() => this.removeItem(item.product_id)}>
+                    //   <Icon active name="trash" />
+                    // </Button>
                   }
                 />
               )}
