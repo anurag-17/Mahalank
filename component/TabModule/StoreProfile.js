@@ -84,10 +84,7 @@ class StoreProfile extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        // console.log(
-        //   responseJson,
-        //   "Response000000000000000000000000000000000000"
-        // );
+        console.log("Response Category Data", responseJson);
         this.setState({
           isLoading: false,
           categorydata: responseJson.data
@@ -117,23 +114,24 @@ class StoreProfile extends Component {
 
         console.log(
           "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/" +
-            this.state.id +"/products?cat_id=" + categories[i].id,"URlllllllllllllllllllllllllll"
+            this.state.id +
+            "/products?cat_id=" +
+            categories[i].cat_ID,
+          "URlllllllllllllllllllllllllll"
         );
-        console.log("category data", responseJson);
+        // console.log("category data", responseJson);
       } catch (error) {
         console.log(error);
         this.setState({ error, loading: false });
         return;
       }
       if (responseJson.status == "false") {
-        ToastAndroid.show("There is no Data !", ToastAndroid.SHORT);
-        return(        
-        <Text style={styles1.loadingbar}>There is No Data!</Text>
-        );
+        ToastAndroid.show("There Is No Product !", ToastAndroid.SHORT);
+        return <Text style={styles1.loadingbar}>There is No Data!</Text>;
       } else {
         let newData = this.state.dataSource;
 
-        newData["c" + categories[i].id] = responseJson;
+        newData["c" + categories[i].cat_ID] = responseJson;
         this.setState({
           isLoading: false,
           dataSource: newData
@@ -156,15 +154,17 @@ class StoreProfile extends Component {
             contentContainerStyle={styles1.listContainer}
             data={this.state.categorydata}
             horizontal={false}
-            keyExtractor={({ id }, index) => id.toString()}
+            keyExtractor={({ cat_ID }, index) => cat_ID.toString()}
             renderItem={({ item }) => {
               let i = 0;
               return (
                 <View style={styles1.categorycard} key={i++}>
                   <View style={styles1.cardContent}>
-                    <Text style={styles1.categoryname}> {item.name} </Text>
+                    <Text style={styles1.categoryname}> {item.cat_name} </Text>
 
-                    <View>{this.__renderProducts(item.id, item.name)}</View>
+                    <View>
+                      {this.__renderProducts(item.cat_ID, item.cat_name)}
+                    </View>
                   </View>
                 </View>
               );
@@ -177,7 +177,7 @@ class StoreProfile extends Component {
 
   __renderProducts = (cat_id, cat_name) => {
     let listData = this.state.dataSource["c" + cat_id];
-    console.log("listData", listData);
+    // console.log("listData", listData);
     return (
       <ScrollView>
         <View style={styles1.container}>
@@ -234,9 +234,7 @@ class StoreProfile extends Component {
   };
 
   renderAsync() {
-    return (
-          <View>{this.__renderCategories()}</View> 
-    );
+    return <View>{this.__renderCategories()}</View>;
   }
 
   render() {
@@ -245,115 +243,119 @@ class StoreProfile extends Component {
 
     return (
       <ScrollView>
-      <View style={styles1.headerContent}>
-      <View style={styles1.storeheaderContent}>
-        <View style={styles1.storeheader}>
-          <ImageBackground
-            source={require("./Banner_2.jpg")}
-            style={{
-              height: 230,
-              width: 450,
-              position: "relative"
-            }}
-          >
-            <View style={{ height: 40, padding: 10, alignItems: "center" }}>
-              <View
+        <View style={styles1.headerContent}>
+          <View style={styles1.storeheaderContent}>
+            <View style={styles1.storeheader}>
+              <ImageBackground
+                source={require("./Banner_2.jpg")}
                 style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  height: 230,
+                  width: 450,
+                  position: "relative"
                 }}
               >
-                <Text style={styles1.storename}>
-                  {this.state.selected_city}
-                </Text>
-              </View>
-            </View>
-            {/* <View style={{ flex: 1, flexDirection: 'row',padding:8,alignItems:'center'}}> */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 8
-              }} >
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: "#FFFFFF",
-                  textAlign: "center",
-                  alignItems: "center"
-                }}>
-                {this.state.store_name}
-              </Text>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("SelectCity")}>
-                <Image
-                  style={{
-                    width: 12,
-                    height: 12,
-                    alignItems: "center",
-                    marginTop: 5,
-                    marginLeft: 10
-                  }}
-                  source={{
-                    uri:
-                      "https://www.controlf5.in/website-template/mobile/icon/arrow-n.png"
-                  }}/>
-              </TouchableOpacity>
-            </View>
-            {/* </View> */}
-            <View style={{ alignItems: "center" }}>
-              <Image
-                style={styles1.avatar}
-                source={{ uri: this.state.banner }}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("SearchTab")}
-            >
-              <View style={{ alignItems: "center" }}>
-                <View style={styles1.inputContainer1}>
-                  <TextInput
-                    style={styles.inputs}
-                    editable={false}
-                    underlineColorAndroid="transparent"
-                    placeholder={this.state.store_name}
-                    placeholderTextColor="#421a8d"/>
-
-                  <Image
-                    source={{
-                      uri:
-                        "https://www.controlf5.in/website-template/Consulting/images/search.png"
+                <View style={{ height: 40, padding: 10, alignItems: "center" }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center"
                     }}
-                    style={styles.inputIconMap}
+                  >
+                    <Text style={styles1.storename}>
+                      {this.state.selected_city}
+                    </Text>
+                  </View>
+                </View>
+                {/* <View style={{ flex: 1, flexDirection: 'row',padding:8,alignItems:'center'}}> */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 8
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    {this.state.store_name}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate("SelectCity")}
+                  >
+                    <Image
+                      style={{
+                        width: 12,
+                        height: 12,
+                        alignItems: "center",
+                        marginTop: 5,
+                        marginLeft: 10
+                      }}
+                      source={{
+                        uri:
+                          "https://www.controlf5.in/website-template/mobile/icon/arrow-n.png"
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {/* </View> */}
+                <View style={{ alignItems: "center" }}>
+                  <Image
+                    style={styles1.avatar}
+                    source={{ uri: this.state.banner }}
                   />
                 </View>
-              </View>
-            </TouchableOpacity>
-          </ImageBackground>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate("SearchTab")}
+                >
+                  <View style={{ alignItems: "center" }}>
+                    <View style={styles1.inputContainer1}>
+                      <TextInput
+                        style={styles.inputs}
+                        editable={false}
+                        underlineColorAndroid="transparent"
+                        placeholder={this.state.store_name}
+                        placeholderTextColor="#421a8d"
+                      />
+
+                      <Image
+                        source={{
+                          uri:
+                            "https://www.controlf5.in/website-template/Consulting/images/search.png"
+                        }}
+                        style={styles.inputIconMap}
+                      />
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </ImageBackground>
+            </View>
+            <View>
+              <Image
+                style={{
+                  height: 100,
+                  width: 450,
+                  position: "relative",
+                  marginTop: 10
+                }}
+                source={require("./Banner2.jpg")}
+              />
+            </View>
+          </View>
+
+          <View>
+            {this.state.hasCategories && this.renderAsync()}
+            {!this.setState.hasCategories && (
+              <Text style={styles1.loadingbar}>Loading...</Text>
+            )}
+          </View>
         </View>
-        <View>
-          <Image
-            style={{
-              height: 100,
-              width: 450,
-              position: "relative",
-              marginTop: 10
-            }}
-            source={require("./Banner2.jpg")}
-          />
-        </View>
-      </View>
-      
-      <View>
-        {this.state.hasCategories && this.renderAsync()}
-        {!this.setState.hasCategories && (
-          <Text style={styles1.loadingbar}>Loading...</Text>
-        )}
-        
-      </View>
-      </View>
       </ScrollView>
     );
   }
