@@ -33,6 +33,7 @@ class StoreProfile extends Component {
       dataSource: {},
       selected_city,
       id: "",
+      cat_ID:"",
       // store_id: "43",
       store_name: "",
       banner: "",
@@ -103,7 +104,7 @@ class StoreProfile extends Component {
         "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/" +
         this.state.id +
         "/products?cat_id=" +
-        categories[i].id;
+        categories[i].cat_ID;
 
       let response = null;
       let responseJson = null;
