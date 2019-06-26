@@ -70,6 +70,11 @@ class StoreProfile extends Component {
   }
 
   makeCategoryRequest = () => {
+    AsyncStorage.getItem("id").then(id => {
+      console.log(id, "Store id ID");
+
+      const formData = new FormData();
+      console.log(formData, "form data");
     const url =
       "https://controlf5.in/client-demo/groznysystems/wp-json/dokan/v1/stores/category";
 
@@ -95,6 +100,7 @@ class StoreProfile extends Component {
       })
       .catch(error => {
         this.setState({ error, loading: false });
+      });
       });
   };
 
