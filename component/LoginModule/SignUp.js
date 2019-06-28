@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TextInput, Image, Switch, AppRegistry, TouchableOpacity, ScrollView, Alert, ToastAndroid } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image, Switch, AppRegistry, TouchableOpacity, ScrollView, Alert, ToastAndroid,StatusBar} from "react-native";
 import { LoginManager, AccessToken, GraphRequestManager, GraphRequest } from 'react-native-fbsdk';
 import { withNavigation } from 'react-navigation';
 
@@ -163,7 +163,9 @@ export default class SignUp extends Component {
     return (
       <ScrollView style={{ backgroundColor: '#DCDCDC' }}>
         <View style={styles.container}>
-
+         <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
           <TouchableOpacity style={[styles.buttonContainer1, styles.fbButoon]} onPress={this._fbAuth.bind(this)}>
             <Image style={styles.icon} source={{ uri: 'https://png.icons8.com/facebook/androidL/40/FFFFFF' }} />
             <Text style={styles.fbText}>Continue with Facebook</Text>
