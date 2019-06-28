@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text,ToastAndroid ,Alert,Image} from 'react-native';
+import { View, Text,ToastAndroid ,Alert,Image,StatusBar} from 'react-native';
 import {AsyncStorage} from 'react-native';
 
 class SplashScreen extends React.Component {
@@ -51,6 +51,9 @@ class SplashScreen extends React.Component {
   render() {
     return (
       <View style={styles.viewStyles}>
+      <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
          <Image style={styles.image} source={{uri: 'https://www.controlf5.in/website-template/Consulting/images/log.jpg'}}/>
       </View>
     );
