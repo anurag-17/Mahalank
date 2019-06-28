@@ -8,7 +8,8 @@ import {
   Image,
   ScrollView,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
 } from "react-native";
 import {
   Container,
@@ -293,6 +294,9 @@ export default class AddToCart extends Component {
     return (
       <ScrollView>
         <View>
+        <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
           <Content scrollEnabled={false}>
             <FlatList
               data={this.state.dataSource}
