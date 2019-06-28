@@ -16,7 +16,8 @@ import {
   ScrollView,
   FlatList,
   TextInput,
-  Button
+  Button,
+  StatusBar
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
@@ -251,6 +252,7 @@ class StoreProfile extends Component {
     return (
       <ScrollView>
         <View style={styles1.headerContent}>
+        <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
           <View style={styles1.storeheaderContent}>
             <View style={styles1.storeheader}>
               <ImageBackground
@@ -688,6 +690,7 @@ class SearchTab extends Component {
     return (
 
       <View style={styles.MainContainer}>
+      <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
@@ -901,7 +904,7 @@ class AboutUs extends Component {
   render() {
     return (
       <View style={styles2.topContainer}>
-
+      <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
         <View style={styles2.Container}>
           <Image style={styles2.image} source={{ uri: 'https://www.controlf5.in/website-template/Consulting/images/log.jpg' }} />
         </View>
@@ -1191,6 +1194,7 @@ class CustomerProfile extends Component {
     return (
       <ScrollView style={{ backgroundColor: "#fff" }}>
         <View style={styles5.container}>
+        <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
           <View style={styles5.header}>
             <View style={styles5.headerContent}>
               <Image
