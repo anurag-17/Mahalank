@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Switch, AppRegistry,Keyboard, TextInput, Image, TouchableOpacity, ScrollView, ToastAndroid } from "react-native";
+import { Text, View, StyleSheet, Switch, AppRegistry,Keyboard, TextInput, Image, TouchableOpacity, ScrollView, ToastAndroid,StatusBar } from "react-native";
 import { AsyncStorage } from 'react-native';
 
 
@@ -120,6 +120,9 @@ const {mob_no,password} = this.state;
     return (
       <ScrollView style={{ backgroundColor: 'white' }}>
         <View style={styles.container}>
+        <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
           <Text style={{ marginTop: 20, color: 'black', fontSize: 20, textAlign: 'center', }}>
             Login with your account
      </Text>
