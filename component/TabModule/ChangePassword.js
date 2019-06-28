@@ -6,6 +6,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -14,10 +15,9 @@ class ChangePassword extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
           <View style={styles.header}>
             <View style={styles.headerContent}>
-
-
                 <Text style={styles.name}>Create New Password </Text>
             </View>
             <Text style={styles.name1}>+962776674183 </Text>
