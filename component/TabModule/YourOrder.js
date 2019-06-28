@@ -9,7 +9,8 @@ import {
   ScrollView,
   ToastAndroid,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
 } from "react-native";
 
 export default class YourOrder extends Component {
@@ -57,6 +58,7 @@ export default class YourOrder extends Component {
     return (
       <ScrollView style={{ backgroundColor: "#fff" }}>
         <View style={styles.container}>
+        <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
           <View>
             <View>
               <ScrollView>
