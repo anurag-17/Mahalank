@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Text, StyleSheet, View, ListView, TextInput, ActivityIndicator, Alert,TouchableOpacity,Image,CheckBox,TouchableHighlight, } from 'react-native';
+import { Text, StyleSheet, View, ListView, TextInput, ActivityIndicator, Alert,TouchableOpacity,Image,CheckBox,TouchableHighlight,StatusBar } from 'react-native';
 
 export default class SelectCityScreen extends Component {
   static navigationOptions = {
@@ -105,6 +105,9 @@ export default class SelectCityScreen extends Component {
     return (
 
       <View style={styles.MainContainer}>
+      <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
        <Text style={{ marginTop:10 ,marginLeft: 10, color: 'black', fontSize: 30,textAlign: 'center',fontWeight: 'bold',}}>
            Select City
        </Text>
