@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet, TouchableOpacity, Image,Alert, ScrollView, FlatList,Button} from 'react-native';
+import { View, Text,StyleSheet, TouchableOpacity, Image,Alert, ScrollView, FlatList,Button,StatusBar} from 'react-native';
 import PropTypes from "prop-types";
 import { withNavigation } from 'react-navigation';
 
@@ -194,7 +194,7 @@ class ViewDetailItem  extends Component  {
 
         <ScrollView>
           <View style={styles.container}>
-
+              <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
               <View style={{alignItems:'center', backgroundColor:'white'}}>
 
                 <Image style={styles.productImg} source={{uri:productImg}}/>
