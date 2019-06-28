@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform,AsyncStorage,StyleSheet, View, Button, Picker, Alert, Text } from "react-native";
+import { Platform,AsyncStorage,StyleSheet, View, Button, Picker, Alert, Text,StatusBar } from "react-native";
 
 export default class LanguageScreen extends Component {
   static navigationOptions = {
@@ -19,6 +19,9 @@ export default class LanguageScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
         <Picker
           selectedValue={this.state.PickerSelectedVal}
           onValueChange={(itemValue, itemIndex) => this.setState({ PickerSelectedVal: itemValue })} >
