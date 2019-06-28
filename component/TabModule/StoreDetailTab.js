@@ -310,7 +310,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
-  FlatList
+  FlatList,
+  StatusBar
 } from "react-native";
 
 export default class StoreDetailTab extends React.Component {
@@ -462,6 +463,7 @@ export default class StoreDetailTab extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
+        <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
           <Text
             style={{
               marginLeft: 10,
