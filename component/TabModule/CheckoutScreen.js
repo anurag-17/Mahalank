@@ -622,7 +622,8 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
-  ToastAndroid
+  ToastAndroid,
+  StatusBar
 } from "react-native";
 import { AsyncStorage } from "react-native";
 
@@ -1037,6 +1038,7 @@ export default class CheckoutScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <StatusBar backgroundColor="#421a8d" barStyle="light-content" />
         <ScrollView style={{ backgroundColor: "#DCDCDC" }}>
           <View
             style={{
