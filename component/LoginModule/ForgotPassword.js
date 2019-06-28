@@ -1,18 +1,20 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TextInput,Image,TouchableOpacity,ScrollView} from "react-native";
+import { Text, View, StyleSheet, TextInput,Image,TouchableOpacity,ScrollView,StatusBar} from "react-native";
 
 export default class ForgotPassword extends Component {
   render() {
     return (
     <ScrollView style={{backgroundColor:'white'}}>
     <View style={styles.container}>
-
+    <StatusBar 
+           backgroundColor = "#421a8d"
+           barStyle= "light-content"/>
     <Text style={{ marginTop:20 ,marginLeft: 10, color: 'black', fontSize: 15,textAlign: 'center',}}>
            Don't worry we will send you a new pin to your register Email Address
      </Text>
 
       <View style={styles.row}>
-
+     
         <View style={styles.inputWrap}>
         <Image style={styles.inputIcon} source={{uri:'https://www.controlf5.in/website-template/Consulting/images/flag4.jpg'}}/>
         </View>
